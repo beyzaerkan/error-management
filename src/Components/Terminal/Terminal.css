@@ -1,5 +1,7 @@
-  .section{
-    color: red;
+@import '../../styles/variables.css';
+
+ .section{
+    color: var(--apple);
     width: 20%;
   }
   

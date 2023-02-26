@@ -1,7 +1,9 @@
+@import '../../../styles/variables.css';
+
 .filter-section{
     position: relative;
     margin: 5px 8px 5px 8px;
-    border: 1px solid grey;
+    border: 1px solid var(--smoke);
     border-radius: 5px;
     width: 150px;
     text-align: center;
@@ -15,6 +17,6 @@
     right: 0;
     width: 15px;
     padding: 0 5px 0 5px;
-    background-color: red;
+    background-color: var(--apple);
     border-radius: 0 5px 0 5px;
 }
