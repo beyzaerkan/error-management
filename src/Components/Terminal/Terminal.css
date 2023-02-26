@@ -1,0 +1,9 @@
+  .section{
+    color: red;
+    width: 20%;
+  }
+  
+  .filter{
+    display: flex;
+    flex-wrap: wrap;
+  }
