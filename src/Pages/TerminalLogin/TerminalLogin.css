@@ -1,0 +1,52 @@
+@import '../../styles/variables.css';
+
+.terminal-login {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 60%;
+  height: 90%;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border: 1px solid var(--smoke);
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+}
+
+.login-title {
+  text-align: center;
+  color: var(--apple);
+  font-weight: bold;
+  padding-bottom: 25px;
+}
+
+.login-form {
+  position: relative;
+  border-top: 1px solid var(--smoke);
+  margin-bottom: 50px;
+}
+
+.selects{
+  background-color: blue;
+  border-radius: 5px;
+  display: flex;
+  margin: 0 9% 0 9%;
+}
+
+.buttons{
+  position: absolute;
+  display: flex;
+  margin: 0 9% 0 9%;
+}
+
+button{
+  max-width: 250px;
+  margin: 15px;
+
+}

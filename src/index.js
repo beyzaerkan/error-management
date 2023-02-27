@@ -8,7 +8,8 @@ import {
 
 import './styles/index.css';
 import App from './App';
-import TerminalListPage from './Pages/TerminalList/TerminalList';
+import TerminalList from './Pages/TerminalList/TerminalList';
+import TerminalLogin from './Pages/TerminalLogin/TerminalLogin';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,7 +17,8 @@ root.render(
    <BrowserRouter>
       <Routes>
         <Route path='/' element={<App />} />
-        <Route path='/terminals' element={<TerminalListPage />} />
+        <Route path='/terminals' element={<TerminalList />} />
+        <Route path='/terminal' element={<TerminalLogin />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

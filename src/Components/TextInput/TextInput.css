@@ -1,0 +1,42 @@
+@import "../../styles/variables.css";
+
+.text-input {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+input {
+    height: 42px;
+    font-size: 13;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--snow);
+    padding-left: 10px;
+}
+
+input::placeholder {
+    font-size: 13px;
+    font-weight: bold;
+}
+
+input:focus {
+    background-color: #e8f0fd;
+    outline: none;
+}
+
+.error {
+    border: 2px solid var(--apple);
+}
+
+.detail {
+    margin-top: 6px;
+    font-size: 10px;
+    font-weight: bold;
+}
