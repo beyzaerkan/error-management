@@ -1,6 +1,4 @@
-:root {
-  --background: rgba(198,255,200,255);
-} 
+@import './variables.css';
 
 body {
   margin: 0;
