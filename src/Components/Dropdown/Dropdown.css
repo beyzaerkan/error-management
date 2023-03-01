@@ -4,6 +4,7 @@
 .dropdown {
     position: relative;
     width: 100%;
+    margin: 3px;
 }
 
 
@@ -50,4 +51,10 @@
 
 .dropdown .dropdown-content .dropdown-item:hover {
     background: #faacac;
+}
+
+.shift-arrows-section{
+    position: absolute;
+    width: 100px;
+    left: 100%;
 }

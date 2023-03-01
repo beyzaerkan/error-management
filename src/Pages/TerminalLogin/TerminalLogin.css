@@ -16,20 +16,18 @@
   border: 1px solid var(--smoke);
   display: flex;
   flex-direction: column;
-  padding: 25px;
+  padding: 10px 20px 10px 20px ;
 }
 
 .login-title {
   text-align: center;
   color: var(--apple);
   font-weight: bold;
-  padding-bottom: 25px;
 }
 
 .login-form {
   position: relative;
   border-top: 1px solid var(--smoke);
-  margin-bottom: 50px;
 }
 
 .selects{
@@ -40,13 +38,12 @@
 }
 
 .buttons{
-  position: absolute;
   display: flex;
-  margin: 0 9% 0 9%;
+  margin: 5px 9% 0 9%;
 }
 
-button{
-  max-width: 250px;
-  margin: 15px;
-
+.support{
+  color: var(--apple);
+  font-weight: bold;
+  text-align: end;
 }

@@ -12,9 +12,9 @@ const DatePicker = () => {
     
   return (
     <div className='date-picker'>
-         <Dropdown options={date.days} />
-         <Dropdown options={date.months}/>
-         <Dropdown options={date.years}/>
+         <Dropdown options={date.days} isArrowsActive={false}/>
+         <Dropdown options={date.months} isArrowsActive={false}/>
+         <Dropdown options={date.years} isArrowsActive={false}/>
     </div>
   );
 };
