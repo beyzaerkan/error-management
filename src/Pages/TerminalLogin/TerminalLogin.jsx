@@ -12,14 +12,14 @@ function TerminalLoginPage() {
   const [inputName, setInputName] = useState('default');
   const [inputs, setInputs] = useState({});
   const [index, setIndex] = useState(0);
+  const [shifts, setShifts] = useState([]);
   const keyboard = useRef();
 
   useEffect(() => {
-    axios.get("../data.json")
+    axios.get("../../data.json")
       .then(response => {
-        setTerminals(
-          response.data.login.data.map(({ termName }) => termName)
-        )
+        setTerminals(response.data.login.data)
+        setShifts(response.data.shifts.data)
       })
   })
 
@@ -69,7 +69,7 @@ function TerminalLoginPage() {
   };
 
   const props = {
-    options: terminals,
+    options: terminals.map(({ termName }) => termName),
     value: getInputValue(inputName),
     onFocus,
     onChange: onChangeInput,
@@ -92,7 +92,7 @@ function TerminalLoginPage() {
           <LoginElement type="textInput" label={labels.montajNo} {...props} />
           <div className='selects'>
             <LoginElement type="datePicker" label="Tarih" />
-            <LoginElement type="dropdown" label="Vardiya" />
+            <LoginElement type="dropdown" label="Vardiya"/>
           </div>
           <div className='buttons'>
             <Button variant="dark">GİRİŞ YAP</Button>

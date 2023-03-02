@@ -26,7 +26,7 @@ function TerminalListPage() {
         <tbody>
         {terminals.map((element, index) => {
             return (
-              <Terminal element={element}/>
+              <Terminal key={index} element={element}/>
             )
         })}
         </tbody>

@@ -4,18 +4,17 @@
 .dropdown {
     position: relative;
     width: 100%;
-    margin: 3px;
 }
 
 
 .dropdown .dropdown-btn {
     height: 42px;
     padding: 0 10px 0  10px;
-    background: #fff;
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    border: 1px solid var(--smoke);
     border-radius: 5px;
 }
 

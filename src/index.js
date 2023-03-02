@@ -18,7 +18,7 @@ root.render(
       <Routes>
         <Route path='/' element={<App />} />
         <Route path='/terminals' element={<TerminalList />} />
-        <Route path='/terminal' element={<TerminalLogin />} />
+        <Route path='/terminals/:depCode/:termName' element={<TerminalLogin />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
