@@ -1,0 +1,16 @@
+.login-element{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.label{
+    margin: 17px;
+    width: 20%;
+    font-weight: bold;
+}
+
+.specific-element{
+    width: 50%;
+}

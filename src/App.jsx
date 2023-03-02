@@ -6,6 +6,8 @@ function App() {
   return (
     <div className="App">
       <Link to="/terminals">terminals</Link>
+      <br />
+      <Link to="/terminal">login</Link>
     </div>
   );
 }
