@@ -1,18 +1,21 @@
-import  React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Dropdown.css'
 import ShiftArrows from '../ShiftArrows/ShiftArrows';
 
 //ok saga tasinacak
 
-const Dropdown = ({options, isArrowsActive}) => {
+const Dropdown = ({ options, isArrowsActive, setter }) => {
   const [isActive, setİsActive] = useState(false);
   const [selected, setSelected] = useState("");
   const [index, setIndex] = useState(0);
 
+  const updateSelected = async () => {
+    setSelected(options[0].displayName);
+  }
+
   useEffect(() => {
-      options &&
-      setSelected(options.at(index));
-  },[index])
+    updateSelected();
+  }, [options])
 
   return (
     <div className='dropdown'>
@@ -21,20 +24,20 @@ const Dropdown = ({options, isArrowsActive}) => {
         <i className='arrow down'></i>
       </div>
       {
-        isActive && 
+        isActive &&
         <div>
           {
             isArrowsActive &&
             <div className='shift-arrows-section'>
-            <ShiftArrows index={index} setIndex={setIndex} listLength={options.length}/>
-          </div>
+              <ShiftArrows index={index} setIndex={setIndex} listLength={options.length} />
+            </div>
           }
-          
+
           <div className='dropdown-content'>
-          {options.map((element, elementIndex) => <div key={elementIndex} className='dropdown-item' onClick={e => {
-            setSelected(element);
-            setIndex(elementIndex)
-          }}>{element}</div>)}
+            {options.map((element, elementIndex) => <div key={elementIndex} className='dropdown-item' onClick={() => {
+              setter(element);
+              setSelected(element.displayName)
+            }}>{element.displayName}</div>)}
           </div>
         </div>
       }

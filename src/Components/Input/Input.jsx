@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 
-import './TextInput.css';
+import './Input.css';
 
-function TextInput({ 
+function Input({ 
+  type,
   detail,
   value,
   style,
@@ -33,7 +34,7 @@ function TextInput({
     <div className='text-input' style={style}>
       { label && <p className='header'>{label}</p> }
       <input 
-        type="text"
+        type={type}
         value={value}
         className={hasError ? 'error' : undefined} 
         ref={input}
@@ -48,4 +49,4 @@ function TextInput({
   );
 }
 
-export default TextInput;
+export default Input;
