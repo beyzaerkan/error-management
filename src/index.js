@@ -14,12 +14,13 @@ import TerminalLogin from './Pages/TerminalLogin/TerminalLogin';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-   <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<App />} />
-        <Route path='/terminals' element={<TerminalList />} />
-        <Route path='/terminals/:depCode/:termName' element={<TerminalLogin />} />
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<App />} />
+          <Route path='/terminals' element={<TerminalList />} /> 
+          <Route path='/terminals/:depCode/:filterCode' element={<TerminalLogin />} />
+          {/* <Route path='/terminal/defectentry/:depCode/:filterCode' element={<ErrorEntry />} /> */}
+        </Routes>
+      </BrowserRouter>
   </React.StrictMode>
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import TextInput from '../TextInput/TextInput';
+import TextInput from '../Input/Input';
 import Dropdown from '../Dropdown/Dropdown';
 import DatePicker from '../DatePicker/DatePicker';
 import './LoginElement.css'
@@ -10,8 +10,8 @@ const components = {
   datePicker: DatePicker,
 };
 
-function LoginElement({ type, label, ...props }) {
-  const SpecificElement = components[type];
+function LoginElement({ whichComponent, label, ...props }) {
+  const SpecificElement = components[whichComponent];
   return (
     <div className='login-element'>
       <div className='label'>{label}</div>

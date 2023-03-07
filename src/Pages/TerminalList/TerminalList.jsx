@@ -11,7 +11,7 @@ function TerminalListPage() {
     .then(response => {
         setTerminals(response.data.terminals.data)
     })
-})
+}, [])
 
   return (
     <div className="terminal-list">

@@ -9,9 +9,9 @@ function Terminal({ element }) {
       <tr>
         <td className='section' >({element.shopCode}) {element.depName}</td>
         <td className='filter'>
-          {filters.map((item) => {
+          {filters.map((item, index) => {
             return (
-              <Filter terminal={item} selected={element}/>
+              <Filter key={index} terminal={item} selected={element}/>
             )
           })}
           </td> 
