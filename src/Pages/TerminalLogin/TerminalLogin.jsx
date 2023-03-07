@@ -14,16 +14,11 @@ function TerminalLoginPage() {
   }
   let { filterCode, depCode } = useParams();
   const [terminals, setTerminals] = useState([]);
-  const [terminal, setTerminal] = useState();
-  const [shift, setShift] = useState({
-    "shiftNo": 3,
-    "shiftCode": "M",
-    "rgbColor": "#12a6eb"
-  });
+  const [terminal, setTerminal] = useState("");
+  const [shift, setShift] = useState("");
   const [inputs, setInputs] = useState({});
   const [layout, setLayout] = useState("default");
   const [inputName, setInputName] = useState("default");
-  const [index, setIndex] = useState(0);
   const [shifts, setShifts] = useState([]);
 
   const keyboard = useRef();

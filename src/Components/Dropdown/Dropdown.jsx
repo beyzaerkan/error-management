@@ -11,11 +11,16 @@ const Dropdown = ({ options, isArrowsActive, setter }) => {
 
   const updateSelected = async () => {
     setSelected(options[0].displayName);
+    setter(options[0]);
   }
 
   useEffect(() => {
     updateSelected();
   }, [options])
+
+  useEffect(() => {
+    setİsActive(!isActive);
+  }, [selected])
 
   return (
     <div className='dropdown'>
