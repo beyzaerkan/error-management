@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
-import axios from 'axios';
+import { useFetch } from '../../Hooks';
 import LoginElement from '../../Components/LoginElement/LoginElement';
 import Keyboard from 'react-simple-keyboard';
 import Button from '../../Components/Button/Button'
@@ -8,6 +8,7 @@ import './TerminalLogin.css'
 import "react-simple-keyboard/build/css/index.css";
 
 function TerminalLoginPage() {
+  const { logins, shifts, loading, error } = useFetch();
   const loginInfo = {
     registrationNo: "9961",
     password: "123456"
@@ -19,28 +20,32 @@ function TerminalLoginPage() {
   const [inputs, setInputs] = useState({});
   const [layout, setLayout] = useState("default");
   const [inputName, setInputName] = useState("default");
-  const [shifts, setShifts] = useState([]);
+  const [shiftList, setShiftList] = useState([]);
 
   const keyboard = useRef();
   const navigate = useNavigate();
 
+  const setDropdownLists = async () => {
+    setTerminals(logins.map((item) => {
+      return {
+        ...item,
+        displayName: item.termName
+      }
+    }))
+
+    setShiftList(shifts.map(item => {
+      return {
+        ...item,
+        displayName: item.shiftCode
+      }
+    }))
+  }
+
   useEffect(() => {
-    axios.get("/data.json")
-      .then(response => {
-        setTerminals(response.data.login.data.map((item) => {
-          return {
-            ...item,
-            displayName: item.termName
-          }
-        }))
-        setShifts(response.data.shifts.data.map(item => {
-          return {
-            ...item,
-            displayName: item.shiftCode
-          }
-        }))
-      })
-  }, [])
+    if(!loading){
+      setDropdownLists();
+    }
+  }, [logins, shifts]);
 
 
   const onChangeAll = inputs => {
@@ -114,7 +119,7 @@ function TerminalLoginPage() {
   }
 
   const shiftDropdown = {
-    options: shifts,
+    options: shiftList,
     setter: setShift,
     isArrowsActive: false,
   }
@@ -151,28 +156,33 @@ function TerminalLoginPage() {
     <div className='terminal-login'>
       <div className='container'>
         <div className='login-title'>CVQS (TMMT)</div>
-        <div className='login-form'>
-          <LoginElement whichComponent="dropdown" label="Terminal Listesi" {...terminalList} />
-          <LoginElement whichComponent="textInput" label={labels.registrationNo} {...registrationNoInput} />
-          <LoginElement whichComponent="textInput" label={labels.password} {...passwordInput} />
-          <LoginElement whichComponent="textInput" label={labels.assemblyNo} {...assemblyNoInput} />
-          <div className='selects' style={{ background: shift.rgbColor }}>
-            <LoginElement whichComponent="datePicker" label="Tarih" />
-            <LoginElement whichComponent="dropdown" label="Vardiya" {...shiftDropdown} />
+        {loading ? (
+          <p>loading...</p>
+        ) : (<>
+          <div className='login-form'>
+            <LoginElement whichComponent="dropdown" label="Terminal Listesi" {...terminalList} />
+            <LoginElement whichComponent="textInput" label={labels.registrationNo} {...registrationNoInput} />
+            <LoginElement whichComponent="textInput" label={labels.password} {...passwordInput} />
+            <LoginElement whichComponent="textInput" label={labels.assemblyNo} {...assemblyNoInput} />
+            <div className='selects' style={{ background: shift.rgbColor }}>
+              <LoginElement whichComponent="datePicker" label="Tarih" />
+              <LoginElement whichComponent="dropdown" label="Vardiya" {...shiftDropdown} />
+            </div>
+            <div className='buttons'>
+              <Button variant="dark" type={"submit"} onClick={login}>GİRİŞ YAP</Button>
+              <Button variant="danger" >KAPAT</Button>
+            </div>
           </div>
-          <div className='buttons'>
-            <Button variant="dark" type={"submit"} onClick={login}>GİRİŞ YAP</Button>
-            <Button variant="danger" >KAPAT</Button>
-          </div>
-        </div>
-        <Keyboard
-          keyboardRef={(r) => (keyboard.current = r)}
-          onChangeAll={onChangeAll}
-          layoutName={layout}
-          onKeyPress={onKeyPress}
-          inputName={inputName}
-        />
-        <p className='support'>TEKNİK DESTEK</p>
+          <Keyboard
+            keyboardRef={(r) => (keyboard.current = r)}
+            onChangeAll={onChangeAll}
+            layoutName={layout}
+            onKeyPress={onKeyPress}
+            inputName={inputName}
+          />
+          <p className='support'>TEKNİK DESTEK</p>
+        </>)
+        }
       </div>
     </div>
   );
