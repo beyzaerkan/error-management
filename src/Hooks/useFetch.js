@@ -1,37 +1,54 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function useFetch() {
-  const [terminals, setTerminals] = useState(undefined);
-  const [shifts, setShifts] = useState(undefined);
-  const [logins, setLogins] = useState(undefined);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
-
-  const fetchData = async () => {
-    axios
-      .get('/data.json')
-      .then((res) => {
-        return res.data;
-      })
-      .then((res) => {
-        setTerminals(res.terminals.data);
-        setShifts(res.shifts.data);
-        setLogins(res.login.data)
-      })
-      .catch((err) => {
-        setError(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+const useFetch = (dataUrl) => {
+  const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    let isMounted = true;
+    const source = axios.CancelToken.source();
 
-  return { terminals, shifts, logins, loading, error };
+    const fetchData = async (url) => {
+      setLoading(true);
+      try {
+        const response = await axios.get('/data.json', {
+          cancelToken: source.token
+        }).then(res => {
+          return res.data;
+        });
+        if (isMounted) {
+          setData({
+            ...response,
+            terminals: response.terminals.data,
+            shifts: response.shifts.data,
+            errors: response.errors.data,
+            logins: response.logins.data,
+          });
+          setError(null);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err.message);
+          setData([]);
+        }
+      } finally {
+        isMounted && setTimeout(() => setLoading(false), 2000);
+      }
+    }
+
+    fetchData(dataUrl);
+
+    const cleanUp = () => {
+      isMounted = false;
+      source.cancel();
+    }
+
+    return cleanUp;
+  }, [dataUrl]);
+
+  return { ...data, error, loading };
 }
 
 export default useFetch;

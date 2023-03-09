@@ -1,0 +1,18 @@
+@import '../../styles/variables.css';
+
+.error-list-item {
+  font-size: small;
+}
+
+.color-section {
+  color: var(--snow);
+  border-radius: 3px;
+}
+
+a {
+  color: var(--apple);
+}
+
+.operation-section {
+  display: flex;
+}

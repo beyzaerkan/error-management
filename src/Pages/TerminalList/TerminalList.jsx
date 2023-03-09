@@ -6,6 +6,12 @@ import './TerminalList.css'
 function TerminalListPage() {
   const { terminals, loading, error } = useFetch();
 
+  const [terminalList, setTerminalList] = useState([]);
+
+  useEffect(() => {
+    setTerminalList(terminals);
+  },[terminals]);
+
   return (
     <div className="terminal-list">
       <div className='title'>TÜM TERMİNALLER</div>
@@ -18,7 +24,7 @@ function TerminalListPage() {
         </thead>
         {loading ? (
             <p>loading...</p>
-          ) : terminals.map((element, index) => {
+          ) : terminalList.map((element, index) => {
             return (
               <tbody>
                 <Terminal key={index} element={element} />
