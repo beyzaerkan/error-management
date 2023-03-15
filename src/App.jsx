@@ -8,6 +8,8 @@ function App() {
       <Link to="/terminals">terminals</Link>
       <br />
       <Link to="/terminal">login</Link>
+      <br />
+      <Link to="/terminal/defcorrect">error list</Link>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Dropdown.css'
 import ShiftArrows from '../ShiftArrows/ShiftArrows';
 
@@ -8,6 +8,7 @@ const Dropdown = ({ options, isArrowsActive, setter }) => {
   const [isActive, setİsActive] = useState(false);
   const [selected, setSelected] = useState("");
   const [index, setIndex] = useState(0);
+  const dropdownRef = useRef(null);
 
   const updateSelected = async () => {
     setSelected(options[0].displayName);
@@ -34,11 +35,11 @@ const Dropdown = ({ options, isArrowsActive, setter }) => {
           {
             isArrowsActive &&
             <div className='shift-arrows-section'>
-              <ShiftArrows index={index} setIndex={setIndex} listLength={options.length} />
+              <ShiftArrows refList={dropdownRef} />
             </div>
           }
 
-          <div className='dropdown-content'>
+          <div className='dropdown-content' ref={dropdownRef}>
             {options.map((element, elementIndex) => <div key={elementIndex} className='dropdown-item' onClick={() => {
               setter(element);
               setSelected(element.displayName)

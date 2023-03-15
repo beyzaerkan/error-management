@@ -42,9 +42,7 @@ function TerminalLoginPage() {
   }
 
   useEffect(() => {
-    if(!loading){
       setDropdownLists();
-    }
   }, [logins, shifts]);
 
 

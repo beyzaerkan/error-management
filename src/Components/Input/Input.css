@@ -4,6 +4,8 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    border: 1px solid transparent;
+    border-radius: 5px;
 }
 
 .header {
@@ -15,7 +17,7 @@
 input {
     height: 42px;
     font-size: 13;
-    border: none;
+    border: 0.3px solid var(--smoke);
     border-radius: 5px;
     background-color: var(--snow);
     padding-left: 10px;
