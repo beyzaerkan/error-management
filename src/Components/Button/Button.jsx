@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import '../../styles/variables.css'
+import '../../styles/variables.css';
 
 const ButtonComponent = styled.button
   `
@@ -9,26 +9,32 @@ const ButtonComponent = styled.button
   vertical-align: middle;
   cursor: pointer;
   border-radius: 0.3rem;
-  color: var(--snow);
+  color: ${props => props.variant === "light"  ? "#000" : "var(--snow)" };
   font-weight: bold;
   margin: 3px;
-  width: 100%;
+  width: 
+  ${(props) =>
+    props.size === "slim"
+        ? "50%"
+        : "100%"
+      };
+  background-color: ${props => props.variant === "danger" ? "var(--apple)" : props.variant === "dark" ? "#000" : props.variant === "light" ? "#fff" : "#ccc" };
   padding: 
   ${(props) =>
-    props.size
-      ? "1.1rem"
-      : props.size === "md"
-        ? "1.4rem"
-        : props.size === "1g"
-          ? "1.6rem"
-          : "1.1rem"};
-  border: 1px solid transparent;
-  background-color: ${props => props.variant === "danger" ? "var(--apple)" : props.variant === "dark" ? "#000" : props.variant === "primary" ? "#000" : "#ccc" };
+    props.size === "slim"
+        ? "2px"
+        : props.size === "full"
+          ? "5px"
+          : "15px"};
+  border: ${props => props.variant === "light"  ? "1px solid var(--smoke)" : "1px solid transparent" };
+  &:hover {
+    cursor: pointer;
+  }
 `
-const Button = ({ type, variant, className, onClick, children }) => {
+const Button = ({ size, variant, className, onClick, children }) => {
   return (
     <ButtonComponent
-      type={type}
+      size={size}
       variant={variant}
       className={className ? `btn-component ${className}` : 'btn-component'}
       onClick={onClick}

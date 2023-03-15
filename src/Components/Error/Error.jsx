@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import { useFetch } from '../../Hooks';
 import Button from '../Button/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -6,7 +6,7 @@ import { faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import './Error.css'
 
-function Error({ errorItem }) {
+const  Error = forwardRef(( props, ref ) => {
   const { errors, loading, error } = useFetch();
   const [nrReasonList, setNrReasonList] = useState([]);
 
@@ -20,49 +20,49 @@ function Error({ errorItem }) {
   }, [errors]);
 
   return (
-    <tr className='error-list-item'>
-      <td>{errorItem.depCode}</td>
-      <td>{errorItem.bodyNo}</td>
-      <td>{errorItem.assyNo}</td>
-      <td>{errorItem.vinNo}</td>
-      <td><div className='color-section' style={{ background: errorItem.rgbCode }}>{errorItem.colorExtCode}</div></td>
-      <td>{errorItem.modelCode}</td>
-      <td>{errorItem.localId}</td>
-      <td><a href="url">{errorItem.partName}</a></td>
+    <tr className='error-list-item' ref={ref}>
+      <td>{props.errorItem.depCode}</td>
+      <td>{props.errorItem.bodyNo}</td>
+      <td>{props.errorItem.assyNo}</td>
+      <td>{props.errorItem.vinNo}</td>
+      <td><div className='color-section' style={{ background: props.errorItem.rgbCode }}>{props.errorItem.colorExtCode}</div></td>
+      <td>{props.errorItem.modelCode}</td>
+      <td>{props.errorItem.localId}</td>
+      <td><a href="url">{props.errorItem.partName}</a></td>
       <td>{ }</td>
       <td>{ }</td>
       <td>{ }</td>
       <td>{ }</td>
-      <td>{errorItem.defectName}</td>
-      <td>{errorItem.defrankCode}</td>
-      <td>{errorItem.formattedDefectHour}</td>
-      <td>{errorItem.defectType}</td>
-      <td>{errorItem.defrespName}</td>
+      <td>{props.errorItem.defectName}</td>
+      <td>{props.errorItem.defrankCode}</td>
+      <td>{props.errorItem.formattedDefectHour}</td>
+      <td>{props.errorItem.defectType}</td>
+      <td>{props.errorItem.defrespName}</td>
       <td>{ }</td>
       <td>
         <select>
           {
-            nrReasonList.map(nrReason => {
+            nrReasonList.map((nrReason, index) => {
               return (
-                <option selected={nrReason.nrId == errorItem.nrReasonId}>{nrReason.nrReasonAbb}</option>
+                <option key={index} selected={nrReason.nrId === props.errorItem.nrReasonId}>{nrReason.nrReasonAbb}</option>
               )
             })
           }
         </select>
       </td>
       <td>
-        <Button variant='dark' >
+        <Button variant='dark' size="full" >
           <FontAwesomeIcon icon={faFloppyDisk} />
         </Button>
       </td>
       <td>
         <div className='operation-section'>
-          <Button variant='danger'><FontAwesomeIcon icon={faPen} /></Button>
-          <Button variant='danger'><FontAwesomeIcon icon={faTrash} /></Button>
+          <Button variant='danger' size="full"><FontAwesomeIcon icon={faPen} /></Button>
+          <Button variant='danger' size="full"><FontAwesomeIcon icon={faTrash} /></Button>
         </div>
       </td>
     </tr>
   );
-}
+});
 
 export default Error;
