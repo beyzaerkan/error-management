@@ -129,7 +129,7 @@ function TerminalLoginPage() {
       alert("Failed!");
     }
     else {
-      navigate(`/terminal/defectentry/${depCode}/${filterCode}/`, {
+      navigate(`/terminal/defectentry/${depCode}/${filterCode}`, {
         state: {
           "seqNo": 222,
           "bodyNo": 25073,
@@ -143,7 +143,8 @@ function TerminalLoginPage() {
           "companyName": "CVQS (TMMT)",
           "termName": "CHASSIS-2",
           "modelId": 23638,
-          "assyNo": 222
+          "assyNo": 222,
+          "rgbColor": shift.rgbColor,
         }
       })
     }

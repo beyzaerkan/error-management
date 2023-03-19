@@ -2,7 +2,7 @@ import React from 'react';
 
 import './Navbar.css'
 
-const Navbar = ({ assyNo, bodyNo, rgbColor, extCode, bgColor, user, departmentCode, background }) => {
+const Navbar = ({ assyNo, bodyNo, rgbColor, extCode, bgColor, user, departmentCode, background="transparent" }) => {
   return (
     <div className='top-screen' style={{ background: background }}>
       <div className='montaj'>
