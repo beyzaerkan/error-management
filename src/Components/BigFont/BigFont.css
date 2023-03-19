@@ -1,0 +1,36 @@
+@import '../../styles/variables.css';
+
+.big-font {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+}
+
+.main-screen {
+    display: flex;
+    flex-flow: row;
+}
+
+.input-section {
+    right: 30px;
+    max-height: 180px;
+    padding: 10px;
+    margin: 10px;
+    border: 0.5px solid var(--smoke);
+    border-radius: 5px;
+    flex: 1;
+    background-color: var(--background);
+}
+
+.main-title {
+    font-weight: bold;
+    font-size: 100px;
+    text-align: center;
+}
+
+.info {
+    flex: 5;
+}
