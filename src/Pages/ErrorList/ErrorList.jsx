@@ -35,7 +35,6 @@ function ErrorListPage() {
     (node) => {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        console.log(entries[0]);
         if (entries[0].isIntersecting) {
           setPage((prev) => prev + 1);
         }
