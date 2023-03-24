@@ -1,0 +1,52 @@
+@import '../../styles/variables.css';
+
+.error-entry-modal{
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(1px);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.modal-container{
+    width: 70%;
+    height: 70%;
+    border-radius: 12px;
+    background-color: var(--background);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+}
+.top{
+    position: relative;
+}
+.exit-department{
+    width: 50%;
+}
+.description{
+    width: 50%;
+}
+.process{
+    width: 50%;
+}
+
+.sub-resp{
+    width: 50%;
+}
+
+.modal-form > div{
+    display: flex;
+}
+
+
+.top > span{
+    float: right;
+}
+
+.checkbox{
+    text-align: end;
+}

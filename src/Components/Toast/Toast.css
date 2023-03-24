@@ -1,0 +1,34 @@
+@import '../../styles/variables.css';
+
+.toast-container {
+    color: white;
+    position: fixed;
+    top: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 1000;
+    left: 40%;
+    right: 40%;
+    text-align: center;
+    transform: translateY(-5000px);
+    transition: 2s;
+}
+.toast-container.show {
+    transform: translateY(0px);
+}
+
+.warning {
+    background-color: #f0ad4e;
+}
+
+.danger{
+    background-color: #d9534f;
+}
+
+.success{
+    background-color: #5cb85c;
+}
+
+.info{
+    background-color: #5bc0de;
+}

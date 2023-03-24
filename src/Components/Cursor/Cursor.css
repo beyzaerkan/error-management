@@ -1,0 +1,30 @@
+.cursor {
+    position: fixed;
+    top: -10px;
+    left: -10px;
+    width: 0;
+    height: 0;
+    border-top: 30px solid transparent;
+    border-right: 20px solid #FF0000;
+    border-bottom: 10px solid transparent;
+    transform: rotate(-45deg);
+    animation: gradient 5s ease-in-out infinite;
+  }
+  
+  @keyframes gradient {
+    0% {
+      border-right-color: #FF0000;
+    }
+    25% {
+      border-right-color: #00FF00;
+    }
+    50% {
+      border-right-color: #0000FF;
+    }
+    75% {
+      border-right-color: #FF00FF;
+    }
+    100% {
+      border-right-color: #FF0000;
+    }
+  }

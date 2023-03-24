@@ -35,7 +35,6 @@ function ErrorListPage() {
     (node) => {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        console.log(entries[0]);
         if (entries[0].isIntersecting) {
           setPage((prev) => prev + 1);
         }
@@ -115,24 +114,24 @@ function ErrorListPage() {
             <div className='montaj-no'>
               <p>MONTAJ NO </p>
               <Input type="text" value={assyNo} onChange={onChange} />
-              <Button variant="light" size="slim" onClick={findAssyNo}>ARA</Button>
+              <Button size="slim" onClick={findAssyNo}>ARA</Button>
             </div>
             <div className='body-no'>
               <p>BODY NO </p>
               <Input type="text" />
-              <Button className="search-btn" variant="light" size="slim">ARA</Button>
+              <Button className="search-btn" size="slim">ARA</Button>
             </div>
           </div>
           <div className='shifts'>
             <ShiftArrows refList={scroller} />
           </div>
           <div className='buttons'>
-            <Button variant="light" size="full">ARAÇ LİSTESİ</Button>
-            <Button variant="light" size="full">MANUAL HATA</Button>
-            <Button variant="light" size="full">ÇOKLU HATA</Button>
-            <Button variant="light" size="full">HATA LİSTESİ</Button>
-            <Button variant="light" size="full">HATA KOPYA</Button>
-            <Button variant="light" size="full">ÇIKIŞ</Button>
+            <Button size="full">ARAÇ LİSTESİ</Button>
+            <Button size="full">MANUAL HATA</Button>
+            <Button size="full">ÇOKLU HATA</Button>
+            <Button size="full">HATA LİSTESİ</Button>
+            <Button size="full">HATA KOPYA</Button>
+            <Button size="full">ÇIKIŞ</Button>
           </div>
         </div>
       </div>
