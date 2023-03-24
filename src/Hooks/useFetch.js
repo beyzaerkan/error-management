@@ -27,6 +27,8 @@ const useFetch = () => {
             logins: response.logins.data,
             defects: response.defects.data,
             errorDetail: response.errorDetail.data,
+            nrReasons: response.nrReasons,
+            dropdowns: response.dropdowns,
           });
           setError(null);
         }

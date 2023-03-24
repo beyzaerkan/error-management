@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const useMouse = (ref) => {
-    const [coords, setCoords] = useState({ x: 0, y: 0 });
+    const [coords, setCoords] = useState({ x: 600, y: 300 });
 
     useEffect(() => {
         const handleWindowMouseMove = (event) => {

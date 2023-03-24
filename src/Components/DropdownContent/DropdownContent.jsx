@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
-import './DropdownContent.css'
+import React, { useRef, useContext } from 'react';
+import { ErrorEntryContext } from '../../Context';
 import ShiftArrows from '../ShiftArrows/ShiftArrows';
+import './DropdownContent.css'
 
 const DropdownContent = ({ options, setter }) => {
-  const [selected, setSelected] = useState("");
   const dropdownRef = useRef(null);
+  const { setSelectedPart } = useContext(ErrorEntryContext);
 
   return (
     <div className='dropdown-element' >
@@ -14,7 +15,7 @@ const DropdownContent = ({ options, setter }) => {
       <div className='dropdown-items' ref={dropdownRef}>
         {options.map((element, elementIndex) => <div key={elementIndex} className='dropdown-item' onClick={ () => {
           setter(false)
-          setSelected(element)
+          setSelectedPart(element)
         }}>{element.defectName}</div>)}
       </div>
     </div>

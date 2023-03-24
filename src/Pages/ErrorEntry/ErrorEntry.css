@@ -44,7 +44,19 @@
 
 .submenu{
   display: flex;
+}
+
+.submenu .button{
+  display: flex;
   width: 70%;
+}
+
+.submenu .selected{
+  margin-left: 5%;
+  padding-top: 2%;
+  width: 20%;
+  text-align: center;
+  font-weight: bold;
 }
 
 .montaj-title{
@@ -53,4 +65,17 @@
   font-size: 20px;
 }
 
+.selected-error{
+  position: relative;
+}
 
+.selected-error .errror{
+  font-weight: bold;
+}
+
+.selected-error .support-title{
+  position: absolute;
+  color: var(--apple);
+  font-weight: bold;
+  right: 0;
+}

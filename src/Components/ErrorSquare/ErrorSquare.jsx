@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import DropdownContent from '../DropdownContent/DropdownContent';
-import Cursor from '../Cursor/Cursor';
-import { useMouse } from '../../Hooks/index';
+import { ErrorEntryContext } from '../../Context';
 import './ErrorSquare.css';
 
-function ErrorSquare({ coord, size, color, labelText, imageRef, handleClick, options, isDropdownOpen}) {
+function ErrorSquare({ coord, size, color, labelText, handleClick, isDropdownOpen }) {
   const [selected, setSelected] = useState(true);
-  const {x, y} = useMouse(imageRef);
+  const { options, imageRef } = useContext(ErrorEntryContext);
   const maxX = imageRef.current.offsetLeft + imageRef.current.clientWidth - size.width;
   const maxY = imageRef.current.offsetTop + imageRef.current.clientHeight - size.height;
   const constrainedX = Math.max(coord.x, Math.min(imageRef.current.offsetLeft + coord.x, maxX));
@@ -22,15 +21,12 @@ function ErrorSquare({ coord, size, color, labelText, imageRef, handleClick, opt
   };
 
   return (
-      selected ? (  <div className='error-square' style={styleProps} onClick={handleClick}>
+    <div className='error-square' style={styleProps} onClick={handleClick}>
       <div className='square-title'>{labelText}</div>
       {
-        isDropdownOpen && <DropdownContent options={options} setter={setSelected} />
+        isDropdownOpen && selected && <DropdownContent options={options} setter={setSelected} />
       }
-    </div>) :
-    (
-      <Cursor x={x} y={y}/>
-    )
+    </div>
   )
 }
 
