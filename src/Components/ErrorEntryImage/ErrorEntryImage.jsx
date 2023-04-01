@@ -1,26 +1,31 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useFetch } from '../../Hooks/index';
 import ErrorSquare from '../ErrorSquare/ErrorSquare';
-import { ErrorEntryContext } from '../../Context';
 import Cursor from '../Cursor/Cursor';
+import {Box} from '@mui/material';
+import { ErrorEntryContext } from '../../Context';
 import './ErrorEntryImage.css';
 
-function ErrorEntryImage({ errorList, setErrorList }) {
+function ErrorEntryImage() {
   const { errorDetail, loading, error } = useFetch();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(true);
   const [selectedErrrorDetail, setSelectedErrorDetail] = useState("");
 
   const {
     isSubImageOpen,
     setIsSubImageOpen,
-    isDropdownOpen,
-    setIsDropdownOpen,
     selectedError,
     setSelectedError,
     imageRef,
     setOptions,
     selectedPart,
+    setSelectedPart,
+    list,
+    setList,
     x,
     y,
+    imageUrl,
+    setImageUrl,
   } = useContext(ErrorEntryContext);
 
   const errorDetails = async () => {
@@ -40,17 +45,19 @@ function ErrorEntryImage({ errorList, setErrorList }) {
   }, [errorDetail])
 
   const handleClick = (shape) => {
-    setSelectedError(shape)
+    setSelectedError(shape);
     if (shape.boxColor === "blue") {
-      setErrorList([
+      setSelectedPart(null);
+      setIsSubImageOpen(true);
+      setList([
         {
           "buttonId": 700469,
           "picId": 87897,
           "childPicID": 0,
           "boxX": 441,
           "boxY": 65,
-          "lineX": 348,
-          "lineY": 279,
+          "lineX": 300,
+          "lineY": 250,
           "boxColor": "red",
           "labelColor": "red",
           "boxWidth": 80,
@@ -76,40 +83,40 @@ function ErrorEntryImage({ errorList, setErrorList }) {
           "defClsId": 0
         }
       ])
-      imageRef.current.src = "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80"
+      setImageUrl("https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80");
     } else {
-      console.log("kırmızı veya yeşil");
       setOptions(selectedErrrorDetail.partDefects);
+      setIsDropdownOpen(!isDropdownOpen);
+      shape.isDropdownOpen = isDropdownOpen;
     }
   }
 
   return (
-    <div className='image-mapper'>
-      <img ref={imageRef} src="https://www.autopartspro.co.uk/tips-advice/wp-content/uploads/2018/04/Unterbodenschutz1-2.jpg" alt="" />
+    <Box sx={{
+      width:'100%',
+      height:'100%',
+      border: '1px solid black'
+    }}>
+      <img ref={imageRef} src={imageUrl} alt="" />
       {
-        selectedPart && selectedError.boxColor === "blue" ?
+        selectedPart && isSubImageOpen ?
           (<Cursor x={x} y={y} />)
           :
           (
-            errorList.map((shape, index) => {
+            list.map((shape, index) => {
               return (
                 <ErrorSquare
                   key={index}
-                  coord={{ x: shape.boxX, y: shape.boxY }}
-                  size={{ width: shape.boxWidth, height: shape.boxHeight }}
-                  color={shape.boxColor}
-                  labelText={shape.labelText}
+                  box={shape}
                   handleClick={() => {
                     handleClick(shape)
-                    shape.isDropdownOpen = true;
                   }}
-                  isDropdownOpen={shape.isDropdownOpen}
                 />
               )
             })
           )
       }
-    </div>
+    </Box>
   )
 }
 

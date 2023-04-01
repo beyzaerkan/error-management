@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Dropdown from '../Dropdown/Dropdown';
-import './DatePicker.css';
+import { Box, Stack } from '@mui/material';
 
 const DatePicker = () => {
   const calendarMonths = [];
@@ -69,11 +69,13 @@ const DatePicker = () => {
   }, [numberOfDays]);
 
   return (
-    <div className='date-picker'>
-      <div><Dropdown options={days} isArrowsActive={false} setter={setDay} /></div>
-      <div><Dropdown options={months} isArrowsActive={false} setter={setMonth} /></div>
-      <div><Dropdown options={years} isArrowsActive={false} setter={setYear} /></div>
-    </div>
+    <Box>
+      <Stack direction="row" spacing={1}>
+        <Dropdown options={days} isArrowsActive={false} setter={setDay} />
+        <Dropdown options={months} isArrowsActive={false} setter={setMonth} />
+        <Dropdown options={years} isArrowsActive={false} setter={setYear} />
+      </Stack>
+    </Box>
   );
 };
 

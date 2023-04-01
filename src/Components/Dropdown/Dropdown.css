@@ -1,6 +1,5 @@
 @import '../../styles/variables.css';
 
-
 .dropdown {
     position: relative;
     width: 100%;
@@ -31,10 +30,10 @@
     -webkit-transform: rotate(45deg);
 }
 
-.dropdown .dropdown-content {
+.dropdown-content {
     position: absolute;
     width: 100%;
-    max-height: 500px;
+    max-height: 350px;
     background: var(--background);
     box-shadow: 3px 3px 10px 6px rgba(0, 0, 0, 0.06);
     font-weight: 500;

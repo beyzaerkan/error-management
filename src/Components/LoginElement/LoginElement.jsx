@@ -1,11 +1,11 @@
 import React from 'react';
-import TextInput from '../Input/Input';
+import Input from '../Input/Input';
 import Dropdown from '../Dropdown/Dropdown';
 import DatePicker from '../DatePicker/DatePicker';
-import './LoginElement.css'
+import { Grid } from '@mui/material';
 
 const components = {
-  textInput: TextInput,
+  textInput: Input,
   dropdown: Dropdown,
   datePicker: DatePicker,
 };
@@ -13,12 +13,16 @@ const components = {
 function LoginElement({ whichComponent, label, ...props }) {
   const SpecificElement = components[whichComponent];
   return (
-    <div className='login-element'>
-      <div className='label'>{label}</div>
-      <div className='specific-element'>
-            <SpecificElement {...props}/>
-      </div>
-    </div>
+    <Grid container sx={{
+      alignItems: 'center'
+    }}>
+      <Grid item xs={5}>
+        {label}
+      </Grid>
+      <Grid item xs={7}>
+        <SpecificElement {...props} />
+      </Grid>
+    </Grid>
   );
 }
 

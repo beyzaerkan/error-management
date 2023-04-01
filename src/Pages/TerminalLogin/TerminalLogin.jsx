@@ -4,7 +4,11 @@ import { useFetch } from '../../Hooks';
 import LoginElement from '../../Components/LoginElement/LoginElement';
 import Keyboard from 'react-simple-keyboard';
 import Button from '../../Components/Button/Button'
-import './TerminalLogin.css'
+import SkeletonComponent from '../../Components/SkeletonComponent/SkeletonComponent';
+import Toast from '../../Components/Toast/Toast';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { Box, Stack, Typography } from '@mui/material'
 import "react-simple-keyboard/build/css/index.css";
 
 function TerminalLoginPage() {
@@ -21,9 +25,66 @@ function TerminalLoginPage() {
   const [layout, setLayout] = useState("default");
   const [inputName, setInputName] = useState("default");
   const [shiftList, setShiftList] = useState([]);
-
+  const toastRef = useRef(null);
   const keyboard = useRef();
   const navigate = useNavigate();
+
+  const loginSchema = yup.object({
+    registrationNo: yup
+      .string('Enter registration no')
+      .required('Registration no is required'),
+    password: yup
+      .string('Enter your password')
+      .required('Password is required'),
+    assemblyNo: yup
+      .string('Enter asssembly no')
+      .max(3, 'Assembly No should be of minimum 3 characters length'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      password: '',
+      registrationNo: '',
+      assemblyNo: '',
+    },
+    validationSchema: loginSchema,
+    onSubmit: (values) => {
+
+      if (values.registrationNo !== loginInfo.registrationNo
+        || values.password !== loginInfo.password
+        || values.assemblyNo !== terminal.lastAssyNo) {
+        toastRef.current.showToast("Failed", "danger");
+      }
+      else {
+        toastRef.current.showToast(JSON.stringify({
+          ...values,
+          terminal,
+          shift,
+        }, null, 2), "info");
+
+        const timer = setTimeout(() => {
+          navigate(`/terminal/defectentry/${depCode}/${filterCode}`, {
+            state: {
+              "seqNo": 222,
+              "bodyNo": 25073,
+              "specData": "",
+              "bgColor": "#ff1c23",
+              "extCode": "3U5",
+              "firstname": "Yusuf Ziya",
+              "lastname": "Başbuğ",
+              "departmentCode": "AI",
+              "modelName": "CHR",
+              "companyName": "CVQS (TMMT)",
+              "termName": terminal.displayName,
+              "modelId": 23638,
+              "assyNo": formik.values.assemblyNo,
+              "rgbColor": shift.rgbColor,
+            }
+          })
+        }, 2000)
+      }
+    },
+  });
 
   const setDropdownLists = async () => {
     setTerminals(logins.map((item) => {
@@ -42,12 +103,13 @@ function TerminalLoginPage() {
   }
 
   useEffect(() => {
-      setDropdownLists();
+    setDropdownLists();
   }, [logins, shifts]);
 
 
   const onChangeAll = inputs => {
     setInputs({ ...inputs });
+    formik.setFieldValue(inputName, inputs[inputName]);
   };
 
   const handleShift = () => {
@@ -66,7 +128,7 @@ function TerminalLoginPage() {
     assemblyNo: "Montaj No",
   }
 
-  const onChangeInput = event => {
+  const onChangeInput = (event) => {
     const inputVal = event.target.value;
 
     setInputs({
@@ -74,12 +136,15 @@ function TerminalLoginPage() {
       [inputName]: inputVal
     });
 
+    formik.setFieldValue(inputName, inputVal);
+
     keyboard.current.setInput(inputVal);
 
   };
 
 
   const getInputValue = inputName => {
+
     return inputs[inputName] || "";
   };
 
@@ -90,30 +155,33 @@ function TerminalLoginPage() {
   }
 
   const registrationNoInput = {
-    value: getInputValue(labels.registrationNo),
+    name: "registrationNo",
+    value: getInputValue("registrationNo"),
     type: "text",
-    onFocus: () => {
-      setInputName(labels.registrationNo)
-    },
+    onFocus: () => setInputName("registrationNo"),
     onChange: onChangeInput,
+    error: formik.touched.registrationNo && Boolean(formik.errors.registrationNo),
+    helperText: formik.touched.registrationNo && formik.errors.registrationNo,
   }
 
   const passwordInput = {
-    value: getInputValue(labels.password),
+    name: "password",
+    value: getInputValue("password"),
     type: "password",
-    onFocus: () => {
-      setInputName(labels.password)
-    },
+    onFocus: () => setInputName("password"),
     onChange: onChangeInput,
+    error: formik.touched.password && Boolean(formik.errors.password),
+    helperText: formik.touched.password && formik.errors.password,
   }
 
   const assemblyNoInput = {
-    value: getInputValue(labels.assemblyNo),
+    name: "assemblyNo",
+    value: getInputValue("assemblyNo"),
     type: "text",
-    onFocus: () => {
-      setInputName(labels.assemblyNo)
-    },
+    onFocus: () => setInputName("assemblyNo"),
     onChange: onChangeInput,
+    error: formik.touched.assemblyNo && Boolean(formik.errors.assemblyNo),
+    helperText: formik.touched.assemblyNo && formik.errors.assemblyNo,
   }
 
   const shiftDropdown = {
@@ -122,56 +190,57 @@ function TerminalLoginPage() {
     isArrowsActive: false,
   }
 
-  const login = () => {
-    if (getInputValue(labels.registrationNo) !== loginInfo.registrationNo
-      || getInputValue(labels.password) !== loginInfo.password
-      || getInputValue(labels.assemblyNo) !== terminal.lastAssyNo) {
-      alert("Failed!");
-    }
-    else {
-      navigate(`/terminal/defectentry/${depCode}/${filterCode}`, {
-        state: {
-          "seqNo": 222,
-          "bodyNo": 25073,
-          "specData": "",
-          "bgColor": "#ff1c23",
-          "extCode": " 3U5",
-          "firstname": "Yusuf Ziya",
-          "lastname": "Başbuğ",
-          "departmentCode": "AI",
-          "modelName": "CHR",
-          "companyName": "CVQS (TMMT)",
-          "termName": "CHASSIS-2",
-          "modelId": 23638,
-          "assyNo": 222,
-          "rgbColor": shift.rgbColor,
-        }
-      })
-    }
-  }
-
-
   return (
-    <div className='terminal-login'>
-      <div className='container'>
-        <div className='login-title'>CVQS (TMMT)</div>
+    <Box sx={{
+      width: '100vw',
+      height: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>
+      <Toast ref={toastRef} />
+      <Box sx={{
+        width: '60%',
+        height: '90%',
+        borderRadius: '12px',
+        boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+        border: '1px solid var(--smoke)',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '10px 20px 10px 20px',
+      }}>
+        <Typography sx={{
+          textAlign: 'center',
+          color: 'var(--apple)',
+          fontWeight: 'bold',
+          borderBottom: '1px solid grey',
+          marginBottom: '5px'
+        }}>CVQS (TMMT)</Typography>
         {loading ? (
-          <p>loading...</p>
+          <SkeletonComponent />
         ) : (<>
-          <div className='login-form'>
-            <LoginElement whichComponent="dropdown" label="Terminal Listesi" {...terminalList} />
-            <LoginElement whichComponent="textInput" label={labels.registrationNo} {...registrationNoInput} />
-            <LoginElement whichComponent="textInput" label={labels.password} {...passwordInput} />
-            <LoginElement whichComponent="textInput" label={labels.assemblyNo} {...assemblyNoInput} />
-            <div className='selects' style={{ background: shift.rgbColor }}>
-              <LoginElement whichComponent="datePicker" label="Tarih" />
-              <LoginElement whichComponent="dropdown" label="Vardiya" {...shiftDropdown} />
-            </div>
-            <div className='buttons'>
-              <Button variant="dark" type={"submit"} onClick={login}>GİRİŞ YAP</Button>
-              <Button variant="danger" >KAPAT</Button>
-            </div>
-          </div>
+          <form onSubmit={formik.handleSubmit}>
+            <Box sx={{
+              paddingX: '12.5%'
+            }}>
+              <LoginElement whichComponent="dropdown" label="Terminal Listesi" {...terminalList} />
+              <LoginElement whichComponent="textInput" label={labels.registrationNo} {...registrationNoInput} />
+              <LoginElement whichComponent="textInput" label={labels.password} {...passwordInput} />
+              <LoginElement whichComponent="textInput" label={labels.assemblyNo} {...assemblyNoInput} />
+              <Stack direction="row" spacing={10} sx={{
+                background: shift.rgbColor,
+                padding: 1,
+                borderRadius: '5px'
+              }}>
+                <LoginElement whichComponent="datePicker" label="Tarih" />
+                <LoginElement whichComponent="dropdown" label="Vardiya" {...shiftDropdown} />
+              </Stack>
+              <Stack direction="row">
+                <Button variant="dark" type="submit" >GİRİŞ YAP</Button>
+                <Button variant="danger" type="button">KAPAT</Button>
+              </Stack>
+            </Box>
+          </form>
           <Keyboard
             keyboardRef={(r) => (keyboard.current = r)}
             onChangeAll={onChangeAll}
@@ -179,11 +248,15 @@ function TerminalLoginPage() {
             onKeyPress={onKeyPress}
             inputName={inputName}
           />
-          <p className='support'>TEKNİK DESTEK</p>
+          <Typography sx={{
+            color: 'var(--apple)',
+            fontWeight: 'bold',
+            textAlign: 'end',
+          }}>TEKNİK DESTEK</Typography>
         </>)
         }
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 
