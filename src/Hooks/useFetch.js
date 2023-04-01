@@ -2,7 +2,17 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const useFetch = () => {
-  const [data, setData] = useState([]);
+  let data1 = null;
+  const [data, setData] = useState({
+    terminals: [],
+    shifts: [],
+    errors: [],
+    logins: [],
+    defects: [],
+    errorDetail: [],
+    nrReasons: [],
+    dropdowns: []
+  });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 

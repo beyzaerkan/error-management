@@ -7,17 +7,15 @@ import BigFont from '../../Components/BigFont/BigFont'
 import ErrorEntryForm from '../../Components/ErrorEntryForm/ErrorEntryForm';
 import ErrorEntryImage from '../../Components/ErrorEntryImage/ErrorEntryImage';
 import Toast from '../../Components/Toast/Toast';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquare } from '@fortawesome/free-regular-svg-icons';
 import { useFetch, useMouse } from '../../Hooks';
-import './ErrorEntry.css';
+import { Box, Grid, Stack, Typography, FormControlLabel, Checkbox } from '@mui/material';
 import { ErrorEntryContext } from '../../Context';
 
 function ErrorEntryPage() {
   const { defects, nrReasons, dropdowns, loading, error } = useFetch();
   const { state } = useLocation();
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [list, setList] = useState([]);
   const [nrReasonList, setNrReasons] = useState([]);
   const [dropdownList, setDropdowns] = useState([]);
@@ -34,10 +32,52 @@ function ErrorEntryPage() {
   const [errorResbonsibility, setErrorResposibility] = useState(null);
   const [errorClass, setErrorClass] = useState(null);
   const [exitDepartment, setExitDepartment] = useState(null);
-  const [subResponsible, setSubResponsible] = useState(null);
+  const [rdd, setRdd] = useState(null);
+  const [fixType, setFixType] = useState(null);
+  const [fixMethod, setFixMethod] = useState(null);
+  const [imageUrl, setImageUrl] = useState("https://www.autopartspro.co.uk/tips-advice/wp-content/uploads/2018/04/Unterbodenschutz1-2.jpg");
   const imageRef = useRef(null);
   const toastRef = useRef(null);
   const { x, y } = useMouse(imageRef);
+  const [audio] = useState(new Audio("https://www.soundjay.com/mechanical/sounds/smoke-detector-1.mp3"));
+  audio.muted = true;
+  let updatedDefectList = [];
+
+
+  useEffect(() => {
+    let timeoutId = setTimeout(() => {
+      toastRef.current.showToast("User didn't interact with page", "danger");
+      audio.addEventListener("canplaythrough", () => {
+        audio.play().catch(e => {
+          document.addEventListener('click', () => {
+            audio.play();
+          })
+        })
+      })
+    }, 5000);
+
+    const handleMouseClick = () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("click", handleMouseClick);
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+
+    const handleMouseMove = () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("click", handleMouseClick);
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+
+    document.addEventListener("click", handleMouseClick);
+    document.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("click", handleMouseClick);
+      document.removeEventListener("mousemove", handleMouseMove);
+    };
+
+  });
 
   const data = {
     isSubImageOpen,
@@ -51,14 +91,33 @@ function ErrorEntryPage() {
     setOptions,
     selectedPart,
     setSelectedPart,
+    list,
+    setList,
     x,
     y,
     setIsErrorEntryOpen,
+    imageUrl,
+    setImageUrl,
+    setDescription,
+    setProcess,
+    setErrorResposibility,
+    setErrorClass,
+    setExitDepartment,
+    setRdd,
+    setFixType,
+    setFixMethod,
+    shiftId: state.shiftId
   }
 
+
   const defectList = async () => {
-    let updatedDefectList = defects[0].defectButtonRecords;
+    if (!defects[0]) {
+      return;
+    }
+
+    updatedDefectList = defects[0].defectButtonRecords;
     setList(oldList => [...oldList, ...updatedDefectList]);
+
     setNrReasons(nrReasons.map((item) => {
       return {
         ...item,
@@ -66,10 +125,10 @@ function ErrorEntryPage() {
       }
     }));
     setDropdowns({
-      models: dropdowns.models.map((item) => {
+      defectResponsibles: dropdowns.requiredFieldsByInspectionDTOList[5].errDetailComboBoxValueDTOList.map((item) => {
         return {
           ...item,
-          displayName: item.modelCode,
+          displayName: item.dataValue,
         }
       }),
       defectClass: dropdowns.requiredFieldsByInspectionDTOList[4].errDetailComboBoxValueDTOList.map((item) => {
@@ -78,62 +137,89 @@ function ErrorEntryPage() {
           displayName: item.dataValue,
         }
       }),
-      defectResponsibles: dropdowns.requiredFieldsByInspectionDTOList[5].errDetailComboBoxValueDTOList.map((item) => {
+      exitDepartments: dropdowns.requiredFieldsByInspectionDTOList[0].errDetailComboBoxValueDTOList.map((item) => {
         return {
           ...item,
           displayName: item.dataValue,
         }
       }),
-      subResponsiblesByDefrespId: dropdowns.subResponsiblesByDefrespId.map((item) => {
-        return {
-          ...item,
-          displayName: "",
-        }
-      }),
+      fixTypes: [
+        { displayName: "Inline" },
+        { displayName: "Offline" },
+      ],
     });
-  }
-
-  const saveError = () => {
-    // console.log(
-    //   x,
-    //   y,
-    //   errorResbonsibility,
-    //   errorClass,
-    //   exitDepartment,
-    //   subResponsible,
-    //   description,
-    //   process
-    // );
-    setIsErrorEntryOpen(false);
-    toastRef.current.showToast("Başarılı bir şekilde kaydedildi");
-    
-  }
-
-  const cancel = () => {
-    setIsErrorEntryOpen(false);
   }
 
   useEffect(() => {
     defectList();
   }, [defects, nrReasons, dropdowns]);
 
+  const refreshPage = async () => {
+    firstImage();
+    setIsVisible(false);
+    setIsErrorEntryOpen(false);
+    setDescription(null);
+    setProcess(null);
+    setErrorResposibility(null);
+    setErrorClass(null);
+    setExitDepartment(null);
+    setRdd(null);
+    setFixType(null);
+    setFixMethod(null);
+  }
+
+  const saveError = () => {
+    setIsErrorEntryOpen(false);
+    toastRef.current.showToast(JSON.stringify({
+      x,
+      y,
+      selectedError: selectedError.labelText,
+      selectedPart: selectedPart.defectName,
+      errorResbonsibility: errorResbonsibility.displayName,
+      errorClass: errorClass.displayName,
+      exitDepartment: exitDepartment.displayName,
+      rdd: rdd.displayName,
+      fixType: fixType.displayName,
+      fixMethod: fixMethod.displayName,
+      description,
+      process
+    }, null, 2), "success");
+
+    refreshPage();
+  }
+
+  const cancel = () => {
+    setIsErrorEntryOpen(false);
+  }
+
   const errorList = () => {
     navigate(`/terminal/defcorrect`);
   }
+
 
   useEffect(() => {
     if (selectedPart !== null) {
       setIsButtonDisable(false);
     }
-    console.log(selectedPart);
   }, [selectedPart]);
 
   const showBigFont = () => {
-    setIsVisible(false);
+    setIsVisible(true);
   }
 
   const firstImage = () => {
-    setReset(!reset);
+    updatedDefectList = defects[0].defectButtonRecords;
+    setList([...updatedDefectList]);
+    setIsSubImageOpen(false);
+    setImageUrl("https://www.autopartspro.co.uk/tips-advice/wp-content/uploads/2018/04/Unterbodenschutz1-2.jpg");
+    setSelectedError(null);
+    setSelectedPart(null);
+    setOptions(null);
+    setIsButtonDisable(true);
+  }
+
+  const backToPage = () => {
+    setIsVisible(false);
   }
 
   const props = {
@@ -145,7 +231,7 @@ function ErrorEntryPage() {
     user: (state.firstname + ' ' + state.lastname).toUpperCase(),
     departmentCode: state.departmentCode,
     modelName: state.modelName,
-    setIsVisible,
+    backToPage,
     nameList: [
       {
         "partName": "ECI PAR DENEME",
@@ -166,106 +252,159 @@ function ErrorEntryPage() {
 
   return (
     <ErrorEntryContext.Provider value={data}>
-      <div className='error-entry'>
-        <Toast ref={toastRef} background={"warning"} />
+      <Box sx={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <Toast ref={toastRef} />
         {
           isErrorEntryOpen &&
           <ErrorEntryForm
             nrReasons={nrReasonList}
             dropdowns={dropdownList}
-            description={description}
-            process={process}
-            setErrorResposibility={setErrorResposibility}
-            setErrorClass={setErrorClass}
-            setExitDepartment={setExitDepartment}
-            setSubResponsible={setSubResponsible}
             saveError={saveError}
             cancel={cancel}
           />
         }
         {
-          isVisible ?
-            (
-              <div className='container'>
-                <Navbar
-                  rgbColor={state.rgbColor}
-                  assyNo={state.assyNo}
-                  bodyNo={state.bodyNo}
-                  extCode={state.extCode}
-                  bgColor={state.bgColor}
-                  user={(state.firstname + ' ' + state.lastname).toUpperCase()}
-                  departmentCode={state.departmentCode}
-                ></Navbar>
-                <div className='main'>
-                  <div className='image'>
-                    <ErrorEntryImage errorList={list} setErrorList={setList} />
-                  </div>
-                  <div className='side-menu'>
-                    <span><FontAwesomeIcon icon={faSquare} size="2x" /> HARİGAMİ</span>
-                    <span><FontAwesomeIcon icon={faSquare} size="2x" /> RDD</span>
-                    <Button
-                      disabled={true}
-                    >
-                      HIZLI KAYDET
-                    </Button>
-                    <Button
-                      disabled={true}
-                    >
-                      KAYDET VE GEÇ
-                    </Button>
-                    <Button
-                      disabled={isButtonDisable}
-                      onClick={() => setIsErrorEntryOpen(true)}
-                    >
-                      HATA KAYIT
-                    </Button>
-                    <div className='montaj-title'>MONTAJ NO</div>
-                    <Input
-                      value={state.assyNo}></Input>
-                    <Button
-                    >
-                      ARA
-                    </Button>
-                    <Button
-                    >
-                      TERMİNAL İLK RESMİ
-                    </Button>
-                    <Button
-                    >
-                      SIK GELEN HATA
-                    </Button>
-                    <Button
-                    >
-                      MANİFEST
-                    </Button>
-                  </div>
-                </div>
-                <div className='submenu'>
-                  <div className='button'>
-                    <Button>ÇIKIŞ</Button>
-                    <Button onClick={firstImage}>MODEL İLK RESMİ</Button>
-                    <Button> &#60; GERİ </Button>
-                    <Button
-                      onClick={errorList}
-                    >
-                      HATA LİSTESİ
-                    </Button>
-                    <Button> TEMİZLE </Button>
-                    <Button onClick={showBigFont}> BÜYÜK FONT </Button>
-                  </div>
-                  <div className='selected'>
-                    {selectedPart && <span>{selectedPart.defectName}</span>}
-                  </div>
-                </div>
-                <div className='selected-error'>
-                {selectedError && <span className='errror'>{selectedError.labelText}</span>}
-                <span className='support-title'>TEKNİK DESTEK</span>
-                </div>
-              </div>
-            )
-            : (<BigFont {...props} />)
+          isVisible && <BigFont {...props} />
         }
-      </div>
+
+        <Box
+          sx={{
+            width: '70%',
+            height: '95%',
+            borderRadius: '12px',
+            boxShadow: 'rgba(0, 0, 0, 0.35) 0px 5px 15px',
+            border: '1px solid var(--smoke)',
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '10px 20px 10px 20px',
+          }}
+        >
+          <Navbar
+            rgbColor={state.rgbColor}
+            assyNo={state.assyNo}
+            bodyNo={state.bodyNo}
+            extCode={state.extCode}
+            bgColor={state.bgColor}
+            user={(state.firstname + ' ' + state.lastname).toUpperCase()}
+            departmentCode={state.departmentCode}
+          />
+
+          <Box display='flex' width='100%' height='80%' >
+            <ErrorEntryImage />
+            <Box sx={{
+              flex: '30%',
+              margin: '0 10px',
+            }}>
+              <FormControlLabel
+                value="end"
+                control={<Checkbox />}
+                label="Harigami"
+                labelPlacement="end"
+                sx={{
+                  fontWeight: 'bold',
+                  '& .MuiSvgIcon-root': {
+                    fontSize: 40
+                  }
+                }}
+              />
+              <FormControlLabel
+                value="end"
+                control={<Checkbox />}
+                label="RDD"
+                labelPlacement="end"
+                sx={{
+                  fontWeight: 'bold',
+                  '& .MuiSvgIcon-root': {
+                    fontSize: 40
+                  }
+                }}
+              />
+              <Button
+                disabled={true}
+                size="large"
+              >
+                HIZLI KAYDET
+              </Button>
+              <Button
+                disabled={true}
+                size="large"
+              >
+                KAYDET VE GEÇ
+              </Button>
+              <Button
+                disabled={isButtonDisable}
+                onClick={() => setIsErrorEntryOpen(true)}
+                size="large"
+              >
+                HATA KAYIT
+              </Button>
+              <Typography sx={{
+                textAlign: 'center',
+                fontWeight: 'bold',
+                zIndex: 5
+              }}>MONTAJ NO</Typography>
+              <Input
+                value={state.assyNo}></Input>
+              <Button
+                size="large"
+              >
+                ARA
+              </Button>
+              <Button
+                size="large"
+                onClick={firstImage}
+              >
+                TERMİNAL İLK RESMİ
+              </Button>
+              <Button
+                size="large"
+              >
+                SIK GELEN HATA
+              </Button>
+              <Button
+                size="large"
+              >
+                MANİFEST
+              </Button>
+            </Box>
+          </Box>
+          <Grid container spacing={12} alignItems='center'>
+            <Grid item xs={9}>
+              <Stack direction="row">
+                <Button>ÇIKIŞ</Button>
+                <Button>MODEL İLK RESMİ</Button>
+                <Button> &#60; GERİ </Button>
+                <Button
+                  onClick={errorList}
+                >
+                  HATA LİSTESİ
+                </Button>
+                <Button> TEMİZLE </Button>
+                <Button onClick={showBigFont}> BÜYÜK FONT </Button>
+              </Stack>
+            </Grid>
+            <Grid item xs={3}>
+              {selectedPart && <Typography fontWeight={'bold'}>{selectedPart.defectName}</Typography>}
+            </Grid>
+          </Grid>
+          <Box position='relative'>
+            {selectedError && <Typography fontWeight='bold' display='inline-block'>{selectedError.labelText}</Typography>}
+            <Typography sx={{
+              position: 'absolute',
+              color: 'var(--apple)',
+              right: 0,
+              fontWeight: 'bold',
+              display: 'inline-block',
+            }}>TEKNİK DESTEK</Typography>
+          </Box>
+        </Box>
+      </Box>
     </ErrorEntryContext.Provider>
   );
 }

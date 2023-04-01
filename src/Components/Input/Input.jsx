@@ -1,51 +1,39 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import { Box, TextField } from '@mui/material';
 
-import './Input.css';
-
-function Input({ 
-  type,
-  detail,
-  value,
-  style,
-  isFocused,
-  valueSetter,
-  label,
-  hasError,
+function Input({
+  id,
+  name,
   placeholder,
-  press,
-  refSetter,
-  onFocus,
+  type,
+  value,
   onChange,
-  ...props}) {
-
-  const input = useRef(null);
-  if (refSetter){
-    refSetter(input);
-  }
-
-  useEffect(() => {
-    if (isFocused) {
-      input.current?.focus();
-    }
-  }, [])
-
+  onFocus,
+  error,
+  helperText,
+  ...props }) {
 
   return (
-    <div className='text-input' style={style}>
-      { label && <p className='header'>{label}</p> }
-      <input 
+    <Box sx={{
+      width: '100%',
+      margin: '2px',
+    }}>
+      <TextField
+        sx={{
+          bgcolor: '#fff',
+        }}
+        fullWidth
+        variant="outlined"
         type={type}
-        value={value}
-        className={hasError ? 'error' : undefined} 
-        ref={input}
-        onChange={onChange} 
-        onKeyPress={press} 
-        onFocus={onFocus}
+        id={id}
         placeholder={placeholder}
-        title={placeholder}
+        onChange={onChange}
+        value={value}
+        error={error}
+        onFocus={onFocus}
+        helperText={helperText}
       />
-      {detail && (<small className='detail'>{detail}</small>)}
-    </div>
+    </Box>
   );
 }
 

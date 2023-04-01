@@ -1,67 +1,66 @@
 import React, { useState, useEffect, forwardRef } from 'react';
-import { useFetch } from '../../Hooks';
 import Button from '../Button/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { TableCell, Box, Stack } from '@mui/material';
 
-import './Error.css'
+const Error = forwardRef(({ errorItem, deleteError, nrReasonList }, ref) => {
+  const [textColor, setTextColor] = useState('');
 
-const  Error = forwardRef(( props, ref ) => {
-  const { errors, loading, error } = useFetch();
-  const [nrReasonList, setNrReasonList] = useState([]);
-
-  const reasonList = async () => {
-    let updatedNrReasonList = errors[0].nrReasonList;
-    setNrReasonList([...updatedNrReasonList]);
+  const calculateBrightness = (color) => {
+    const [r, g, b] = color.match(/\w\w/g).map(x => parseInt(x, 16));
+    return Math.round(((r * 299) + (g * 587) + (b * 114)) / 1000);
   }
 
   useEffect(() => {
-    reasonList();
-  }, [errors]);
+    const brightness = calculateBrightness(errorItem.rgbCode);
+    const newTextColor = brightness > 128 ? '#000' : '#FFF';
+    setTextColor(newTextColor);
+  }, [errorItem.rgbCode])
 
   return (
-    <tr className='error-list-item' ref={ref}>
-      <td>{props.errorItem.depCode}</td>
-      <td>{props.errorItem.bodyNo}</td>
-      <td>{props.errorItem.assyNo}</td>
-      <td>{props.errorItem.vinNo}</td>
-      <td><div className='color-section' style={{ background: props.errorItem.rgbCode }}>{props.errorItem.colorExtCode}</div></td>
-      <td>{props.errorItem.modelCode}</td>
-      <td>{props.errorItem.localId}</td>
-      <td><a href="url">{props.errorItem.partName}</a></td>
-      <td>{ }</td>
-      <td>{ }</td>
-      <td>{ }</td>
-      <td>{ }</td>
-      <td>{props.errorItem.defectName}</td>
-      <td>{props.errorItem.defrankCode}</td>
-      <td>{props.errorItem.formattedDefectHour}</td>
-      <td>{props.errorItem.defectType}</td>
-      <td>{props.errorItem.defrespName}</td>
-      <td>{ }</td>
-      <td>
+    <>
+      <TableCell>{errorItem.depCode}</TableCell>
+      <TableCell>{errorItem.bodyNo}</TableCell>
+      <TableCell>{errorItem.assyNo}</TableCell>
+      <TableCell>{errorItem.vinNo}</TableCell>
+      <TableCell><Box sx={{ background: errorItem.rgbCode, borderRadius: '5px', color: textColor }}>{errorItem.colorExtCode}</Box></TableCell>
+      <TableCell>{errorItem.modelCode}</TableCell>
+      <TableCell>{errorItem.localId}</TableCell>
+      <TableCell><a href="url" style={{color: 'var(--apple)' }}>{errorItem.partName}</a></TableCell>
+      <TableCell>{ }</TableCell>
+      <TableCell>{ }</TableCell>
+      <TableCell>{ }</TableCell>
+      <TableCell>{ }</TableCell>
+      <TableCell>{errorItem.defectName}</TableCell>
+      <TableCell>{errorItem.defrankCode}</TableCell>
+      <TableCell>{errorItem.formattedDefectHour}</TableCell>
+      <TableCell>{errorItem.defectType}</TableCell>
+      <TableCell>{errorItem.defrespName}</TableCell>
+      <TableCell>{ }</TableCell>
+      <TableCell>
         <select>
           {
             nrReasonList.map((nrReason, index) => {
               return (
-                <option key={index} selected={nrReason.nrId === props.errorItem.nrReasonId}>{nrReason.nrReasonAbb}</option>
+                <option key={index} selected={nrReason.nrId === errorItem.nrReasonId}>{nrReason.nrReasonAbb}</option>
               )
             })
           }
         </select>
-      </td>
-      <td>
-        <Button variant='dark' size="full" >
+      </TableCell>
+      <TableCell>
+        <Button variant='dark' size="small" >
           <FontAwesomeIcon icon={faFloppyDisk} />
         </Button>
-      </td>
-      <td>
-        <div className='operation-section'>
-          <Button variant='danger' size="full"><FontAwesomeIcon icon={faPen} /></Button>
-          <Button variant='danger' size="full"><FontAwesomeIcon icon={faTrash} /></Button>
-        </div>
-      </td>
-    </tr>
+      </TableCell>
+      <TableCell>
+        <Stack direction='row'>
+          <Button variant='danger' size="small"><FontAwesomeIcon icon={faPen} /></Button>
+          <Button variant='danger' size="small" onClick={() => deleteError(errorItem)}><FontAwesomeIcon icon={faTrash} /></Button>
+        </Stack>
+      </TableCell>
+    </>
   );
 });
 

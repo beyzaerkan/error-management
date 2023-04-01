@@ -13,9 +13,6 @@
     cursor: pointer;
 }
 
-.shift-arrows>div:hover {
-    background: var(--smoke);
-}
 
 .arrow {
     border: solid black;

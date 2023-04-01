@@ -10,7 +10,7 @@ const DropdownContent = ({ options, setter }) => {
   return (
     <div className='dropdown-element' >
       <div className='shift-arrows-section'>
-        <ShiftArrows refList={dropdownRef} />
+        <ShiftArrows refList={dropdownRef} buttonColor={'var(--background)'} />
       </div>
       <div className='dropdown-items' ref={dropdownRef}>
         {options.map((element, elementIndex) => <div key={elementIndex} className='dropdown-item' onClick={ () => {

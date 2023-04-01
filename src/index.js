@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import './styles/index.css';
+import './styles/variables.css';
 import App from './App';
 import TerminalList from './Pages/TerminalList/TerminalList';
 import TerminalLogin from './Pages/TerminalLogin/TerminalLogin';
