@@ -6,6 +6,7 @@ import Keyboard from 'react-simple-keyboard';
 import Button from '../../Components/Button/Button'
 import SkeletonComponent from '../../Components/SkeletonComponent/SkeletonComponent';
 import Toast from '../../Components/Toast/Toast';
+import BlockUI from '../../Components/BlockUI/BlockUI';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Box, Stack, Typography } from '@mui/material'
@@ -25,9 +26,37 @@ function TerminalLoginPage() {
   const [layout, setLayout] = useState("default");
   const [inputName, setInputName] = useState("default");
   const [shiftList, setShiftList] = useState([]);
+  const [blocking, setBlocking] = useState(false);
   const toastRef = useRef(null);
   const keyboard = useRef();
   const navigate = useNavigate();
+
+  const wait = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
+  const navigatePage = async () => {
+    await wait(2000);
+    setBlocking(false);
+    navigate(`/terminal/defectentry/${depCode}/${filterCode}`, {
+      state: {
+        "seqNo": 222,
+        "bodyNo": 25073,
+        "specData": "",
+        "bgColor": "#ff1c23",
+        "extCode": "3U5",
+        "firstname": "Yusuf Ziya",
+        "lastname": "Başbuğ",
+        "departmentCode": "AI",
+        "modelName": "CHR",
+        "companyName": "CVQS (TMMT)",
+        "termName": terminal.displayName,
+        "modelId": 23638,
+        "assyNo": formik.values.assemblyNo,
+        "rgbColor": shift.rgbColor,
+      }
+    })
+  };
 
   const loginSchema = yup.object({
     registrationNo: yup
@@ -48,40 +77,23 @@ function TerminalLoginPage() {
       assemblyNo: '',
     },
     validationSchema: loginSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
 
       if (values.registrationNo !== loginInfo.registrationNo
         || values.password !== loginInfo.password
         || values.assemblyNo !== terminal.lastAssyNo) {
         toastRef.current.showToast("Failed", "danger");
+        return;
       }
       else {
+        setBlocking(true);
         toastRef.current.showToast(JSON.stringify({
           ...values,
           terminal,
           shift,
         }, null, 2), "info");
 
-        const timer = setTimeout(() => {
-          navigate(`/terminal/defectentry/${depCode}/${filterCode}`, {
-            state: {
-              "seqNo": 222,
-              "bodyNo": 25073,
-              "specData": "",
-              "bgColor": "#ff1c23",
-              "extCode": "3U5",
-              "firstname": "Yusuf Ziya",
-              "lastname": "Başbuğ",
-              "departmentCode": "AI",
-              "modelName": "CHR",
-              "companyName": "CVQS (TMMT)",
-              "termName": terminal.displayName,
-              "modelId": 23638,
-              "assyNo": formik.values.assemblyNo,
-              "rgbColor": shift.rgbColor,
-            }
-          })
-        }, 2000)
+       await navigatePage();
       }
     },
   });
@@ -199,6 +211,7 @@ function TerminalLoginPage() {
       alignItems: 'center'
     }}>
       <Toast ref={toastRef} />
+      <BlockUI blocking={blocking} />
       <Box sx={{
         width: '60%',
         height: '90%',

@@ -7,6 +7,7 @@ import BigFont from '../../Components/BigFont/BigFont'
 import ErrorEntryForm from '../../Components/ErrorEntryForm/ErrorEntryForm';
 import ErrorEntryImage from '../../Components/ErrorEntryImage/ErrorEntryImage';
 import Toast from '../../Components/Toast/Toast';
+import BlockUI from '../../Components/BlockUI/BlockUI';
 import { useFetch, useMouse } from '../../Hooks';
 import { Box, Grid, Stack, Typography, FormControlLabel, Checkbox } from '@mui/material';
 import { ErrorEntryContext } from '../../Context';
@@ -36,13 +37,13 @@ function ErrorEntryPage() {
   const [fixType, setFixType] = useState(null);
   const [fixMethod, setFixMethod] = useState(null);
   const [imageUrl, setImageUrl] = useState("https://www.autopartspro.co.uk/tips-advice/wp-content/uploads/2018/04/Unterbodenschutz1-2.jpg");
+  const [blocking, setBlocking] = useState(false);
   const imageRef = useRef(null);
   const toastRef = useRef(null);
   const { x, y } = useMouse(imageRef);
   const [audio] = useState(new Audio("https://www.soundjay.com/mechanical/sounds/smoke-detector-1.mp3"));
   audio.muted = true;
   let updatedDefectList = [];
-
 
   useEffect(() => {
     let timeoutId = setTimeout(() => {
@@ -78,6 +79,15 @@ function ErrorEntryPage() {
     };
 
   });
+
+  const wait = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  
+  const navigatePage = async () => {
+    await wait(2000);
+    setBlocking(false);
+  };
 
   const data = {
     isSubImageOpen,
@@ -168,8 +178,9 @@ function ErrorEntryPage() {
     setFixMethod(null);
   }
 
-  const saveError = () => {
+  const saveError = async () => {
     setIsErrorEntryOpen(false);
+    setBlocking(true);
     toastRef.current.showToast(JSON.stringify({
       x,
       y,
@@ -185,7 +196,8 @@ function ErrorEntryPage() {
       process
     }, null, 2), "success");
 
-    refreshPage();
+    await navigatePage();
+    await refreshPage();
   }
 
   const cancel = () => {
@@ -259,6 +271,7 @@ function ErrorEntryPage() {
         justifyContent: 'center',
         alignItems: 'center'
       }}>
+        <BlockUI blocking={blocking} />
         <Toast ref={toastRef} />
         {
           isErrorEntryOpen &&
