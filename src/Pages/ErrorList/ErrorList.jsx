@@ -9,6 +9,7 @@ import SkeletonComponent from '../../Components/SkeletonComponent/SkeletonCompon
 import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Grid, Typography, Paper } from '@mui/material';
 import { TableVirtuoso } from 'react-virtuoso';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
 
 function ErrorListPage() {
   const { errors, loading, error } = useFetch();
@@ -20,13 +21,13 @@ function ErrorListPage() {
   const [scroller, setScroller] = useState(null)
   const navigate = useNavigate();
 
-  // const scroller = useRef(null);
+  const { t } = useTranslation();
 
   const defects = async () => {
     let updatedDefectList = errors[0].defectList;
     let updatedNrReasonList = errors[0].nrReasonList;
     setNrReasonList([...updatedNrReasonList]);
-    setList([ ...updatedDefectList]);
+    setList([...updatedDefectList]);
   }
 
   useEffect(() => {
@@ -85,15 +86,15 @@ function ErrorListPage() {
     },
   });
 
-  
+
   const TableComponents = {
     Scroller: React.forwardRef((props, ref) => {
       setScroller(ref);
-      return <ThemeProvider theme={theme}> <TableContainer sx={{width: '100%'}} {...props} ref={ref} /></ThemeProvider>
+      return <ThemeProvider theme={theme}> <TableContainer sx={{ width: '100%' }} {...props} ref={ref} /></ThemeProvider>
     }),
-    Table: (props) => <Table {...props} sx={{ minWidth: '100%', borderCollapse: 'collapse', tableLayout: 'fixed'}} size="small" aria-label="a dense table" />,
+    Table: (props) => <Table {...props} sx={{ minWidth: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }} size="small" aria-label="a dense table" />,
     TableHead: TableHead,
-    TableRow: (props) =>  <TableRow hover {...props}/>,
+    TableRow: (props) => <TableRow hover {...props} />,
     TableBody: React.forwardRef((props, ref) => <TableBody {...props} ref={ref} />),
   }
 
@@ -106,39 +107,39 @@ function ErrorListPage() {
           : (
             <Box>
               <TableVirtuoso
-              ref={scroller}
+                ref={scroller}
                 style={{ height: 570, width: '100%' }}
                 data={list}
                 components={TableComponents}
                 fixedHeaderContent={() => (
                   <TableRow
-                  hover  
-                  sx={{
-                    backgroundColor: 'var(--background)',
-                    height: '50px',
-                  }}
+                    hover
+                    sx={{
+                      backgroundColor: 'var(--background)',
+                      height: '50px',
+                    }}
                   >
-                    <TableCell sx={{ width: 60 }} onClick={() => handleSortRequest('depCode')} >Bildiren</TableCell>
-                    <TableCell sx={{ width: 50 }} onClick={() => handleSortRequest('bodyNo')}>Body</TableCell>
-                    <TableCell onClick={() => handleSortRequest('assyNo')}>Assy</TableCell>
-                    <TableCell sx={{ width: 150 }} onClick={() => handleSortRequest('vinNo')}>Vin No</TableCell>
-                    <TableCell onClick={() => handleSortRequest('colorExtCode')}>Renk</TableCell>
-                    <TableCell onClick={() => handleSortRequest('modelCode')}>Mdl</TableCell>
-                    <TableCell onClick={() => handleSortRequest('localId')}>Sicil</TableCell>
-                    <TableCell sx={{ width: 200 }} onClick={() => handleSortRequest('partName')}>Parca</TableCell>
-                    <TableCell>Spot</TableCell>
-                    <TableCell>Gun</TableCell>
-                    <TableCell>Arc</TableCell>
-                    <TableCell>ArcGun</TableCell>
-                    <TableCell sx={{ width: 150 }} onClick={() => handleSortRequest('defectName')}>Hata</TableCell>
-                    <TableCell onClick={() => handleSortRequest('defrankCode')}>Rank</TableCell>
-                    <TableCell sx={{ width: 50 }} onClick={() => handleSortRequest('formattedDefectHour')}>Saat</TableCell>
-                    <TableCell sx={{ width: 50 }} onClick={() => handleSortRequest('defectType')}>Hata Türü</TableCell>
-                    <TableCell sx={{ width: 80 }} onClick={() => handleSortRequest('defrespName')}>Hata Sor</TableCell>
-                    <TableCell>Alt Sorumlu</TableCell>
-                    <TableCell sx={{ width: 120 }}>NR REASON</TableCell>
-                    <TableCell sx={{ width: 80 }} >Kaydet</TableCell>
-                    <TableCell sx={{ width: 150 }}>İşlem</TableCell>
+                    <TableCell sx={{ width: 60 }} onClick={() => handleSortRequest('depCode')} >{t('reporting')}</TableCell>
+                    <TableCell sx={{ width: 50 }} onClick={() => handleSortRequest('bodyNo')}>{t('body')}</TableCell>
+                    <TableCell onClick={() => handleSortRequest('assyNo')}>{t('assy')}</TableCell>
+                    <TableCell sx={{ width: 150 }} onClick={() => handleSortRequest('vinNo')}>{t('vinNO')}</TableCell>
+                    <TableCell onClick={() => handleSortRequest('colorExtCode')}>{t('color')}</TableCell>
+                    <TableCell onClick={() => handleSortRequest('modelCode')}>{t('mdl')}</TableCell>
+                    <TableCell onClick={() => handleSortRequest('localId')}>{t('registration')}</TableCell>
+                    <TableCell sx={{ width: 200 }} onClick={() => handleSortRequest('partName')}>{t('part')}</TableCell>
+                    <TableCell>{t('Spot')}</TableCell>
+                    <TableCell>{t('Gun')}</TableCell>
+                    <TableCell>{t('Arc')}</TableCell>
+                    <TableCell>{t('ArcGun')}</TableCell>
+                    <TableCell sx={{ width: 150 }} onClick={() => handleSortRequest('defectName')}>{t('defectName')}</TableCell>
+                    <TableCell onClick={() => handleSortRequest('defrankCode')}>{t('Rank')}</TableCell>
+                    <TableCell sx={{ width: 50 }} onClick={() => handleSortRequest('formattedDefectHour')}>{t('hour')}</TableCell>
+                    <TableCell sx={{ width: 50 }} onClick={() => handleSortRequest('defectType')}>{t('errorType')}</TableCell>
+                    <TableCell sx={{ width: 80 }} onClick={() => handleSortRequest('defrespName')}>{t('defrespName')}</TableCell>
+                    <TableCell>{t('subResponsibles')}</TableCell>
+                    <TableCell sx={{ width: 120 }}>{t('NR REASON')}</TableCell>
+                    <TableCell sx={{ width: 80 }} >{t('save')}</TableCell>
+                    <TableCell sx={{ width: 150 }}>{t('process')}</TableCell>
                   </TableRow>
                 )}
                 itemContent={(index, item) => <Error key={index} errorItem={item} deleteError={deleteError} nrReasonList={nrReasonList} />}
@@ -173,7 +174,7 @@ function ErrorListPage() {
                 <Grid item xs={8}>
                   <Stack direction='row'>
                     <Input type="text" value={assyNo} onChange={onChange} />
-                    <Button size="small" onClick={findAssyNo}>ARA</Button>
+                    <Button size="small" onClick={findAssyNo}>search</Button>
                   </Stack>
                 </Grid>
               </Grid>
@@ -186,7 +187,7 @@ function ErrorListPage() {
                 <Grid item xs={8}>
                   <Stack direction='row'>
                     <Input type="text" />
-                    <Button size="small">ARA</Button>
+                    <Button size="small">search</Button>
                   </Stack>
                 </Grid>
               </Grid>
@@ -197,15 +198,15 @@ function ErrorListPage() {
             width: '150px',
             flex: '3%',
           }}>
-            <ShiftArrows refList={scroller} buttonColor={'var(--apple)'}/>
+            <ShiftArrows refList={scroller} buttonColor={'var(--apple)'} />
           </Box>
           <Stack direction='row' flex='50%'>
-            <Button size="large">ARAÇ LİSTESİ</Button>
-            <Button size="large">MANUAL HATA</Button>
-            <Button size="large">ÇOKLU HATA</Button>
-            <Button size="large">HATA LİSTESİ</Button>
-            <Button size="large">HATA KOPYA</Button>
-            <Button size="large" onClick={() => navigate(`/terminals`)}>ÇIKIŞ</Button>
+            <Button size="large">vehicleList</Button>
+            <Button size="large">manualError</Button>
+            <Button size="large">multiError</Button>
+            <Button size="large">errorList</Button>
+            <Button size="large">errorCopy</Button>
+            <Button size="large" onClick={() => navigate(`/terminals`)}>exit</Button>
           </Stack>
         </Box>
       </Box>

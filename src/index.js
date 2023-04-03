@@ -5,6 +5,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import './Utils/i18n';
 
 import './styles/index.css';
 import './styles/variables.css';

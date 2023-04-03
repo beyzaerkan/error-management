@@ -123,9 +123,9 @@ function TerminalLoginPage() {
   };
 
   const labels = {
-    registrationNo: "Sicil No",
-    password: "Şifre",
-    assemblyNo: "Montaj No",
+    registrationNo: "registrationNo",
+    password: "password",
+    assemblyNo: "assemblyNo",
   }
 
   const onChangeInput = (event) => {
@@ -223,7 +223,7 @@ function TerminalLoginPage() {
             <Box sx={{
               paddingX: '12.5%'
             }}>
-              <LoginElement whichComponent="dropdown" label="Terminal Listesi" {...terminalList} />
+              <LoginElement whichComponent="dropdown" label="terminalList" {...terminalList} />
               <LoginElement whichComponent="textInput" label={labels.registrationNo} {...registrationNoInput} />
               <LoginElement whichComponent="textInput" label={labels.password} {...passwordInput} />
               <LoginElement whichComponent="textInput" label={labels.assemblyNo} {...assemblyNoInput} />
@@ -232,12 +232,12 @@ function TerminalLoginPage() {
                 padding: 1,
                 borderRadius: '5px'
               }}>
-                <LoginElement whichComponent="datePicker" label="Tarih" />
-                <LoginElement whichComponent="dropdown" label="Vardiya" {...shiftDropdown} />
+                <LoginElement whichComponent="datePicker" label="date" />
+                <LoginElement whichComponent="dropdown" label="shift" {...shiftDropdown} />
               </Stack>
               <Stack direction="row">
-                <Button variant="dark" type="submit" >GİRİŞ YAP</Button>
-                <Button variant="danger" type="button">KAPAT</Button>
+                <Button variant="dark" type="submit" >logIn</Button>
+                <Button variant="danger" type="button">close</Button>
               </Stack>
             </Box>
           </form>

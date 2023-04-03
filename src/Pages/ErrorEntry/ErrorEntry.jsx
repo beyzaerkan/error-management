@@ -329,20 +329,20 @@ function ErrorEntryPage() {
                 disabled={true}
                 size="large"
               >
-                HIZLI KAYDET
+                quickSave
               </Button>
               <Button
                 disabled={true}
                 size="large"
               >
-                KAYDET VE GEÇ
+                saveAndSkip
               </Button>
               <Button
                 disabled={isButtonDisable}
                 onClick={() => setIsErrorEntryOpen(true)}
                 size="large"
               >
-                HATA KAYIT
+                saveError
               </Button>
               <Typography sx={{
                 textAlign: 'center',
@@ -354,18 +354,18 @@ function ErrorEntryPage() {
               <Button
                 size="large"
               >
-                ARA
+                search
               </Button>
               <Button
                 size="large"
                 onClick={firstImage}
               >
-                TERMİNAL İLK RESMİ
+                terminalFirstImage
               </Button>
               <Button
                 size="large"
               >
-                SIK GELEN HATA
+                commonMistake
               </Button>
               <Button
                 size="large"
@@ -377,16 +377,16 @@ function ErrorEntryPage() {
           <Grid container spacing={12} alignItems='center'>
             <Grid item xs={9}>
               <Stack direction="row">
-                <Button>ÇIKIŞ</Button>
-                <Button>MODEL İLK RESMİ</Button>
-                <Button> &#60; GERİ </Button>
+                <Button>exit</Button>
+                <Button>modelFirstImage</Button>
+                <Button>back</Button>
                 <Button
                   onClick={errorList}
                 >
-                  HATA LİSTESİ
+                  errorList
                 </Button>
-                <Button> TEMİZLE </Button>
-                <Button onClick={showBigFont}> BÜYÜK FONT </Button>
+                <Button>clear</Button>
+                <Button onClick={showBigFont}>bigFont</Button>
               </Stack>
             </Grid>
             <Grid item xs={3}>

@@ -4,11 +4,13 @@ import Terminal from '../../Components/Terminal/Terminal'
 import SkeletonComponent from '../../Components/SkeletonComponent/SkeletonComponent';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
 
 function TerminalListPage() {
   const { terminals, loading, error } = useFetch();
 
   const [terminalList, setTerminalList] = useState([]);
+  const {t} = useTranslation();
 
   useEffect(() => {
     setTerminalList(terminals);
@@ -22,6 +24,7 @@ function TerminalListPage() {
             border: '1px solid var(--smoke)',
             fontWeight: 'bold',
             textAlign:"center",
+            textTransform: "uppercase",
           },
         },
       },
@@ -40,12 +43,12 @@ function TerminalListPage() {
               <TableHead>
                 <TableRow >
                   <TableCell  colSpan={2}>
-                    <Typography sx={{color: 'var(--apple)', textDecoration: 'underline', fontWeight: 'bold'}}>TÜM TERMİNALLER</Typography>
+                    <Typography sx={{color: 'var(--apple)', textDecoration: 'underline', fontWeight: 'bold'}}>{t('allTerminals')}</Typography>
                   </TableCell>
                 </TableRow>
                 <TableRow >
-                  <TableCell align="center" sx={{ width: '20%', color: 'var(--apple)' }}>BÖLÜM BAZINDA</TableCell>
-                  <TableCell align="center" sx={{color: 'var(--apple)'}}  >FİLTRE BAZINDA</TableCell>
+                  <TableCell align="center" sx={{ width: '20%', color: 'var(--apple)' }}>{t('departmentBased')}</TableCell>
+                  <TableCell align="center" sx={{color: 'var(--apple)'}}  >{t('filterBased')}</TableCell>
                 </TableRow>
               </TableHead>
               {

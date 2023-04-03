@@ -83,7 +83,7 @@ const BigFont = ({ assyNo, bodyNo, rgbColor, extCode, bgColor, user, departmentC
                 size="large"
                 onClick={backToPage}
               >
-                HATA GİRİŞİ
+                errorEntry
               </Button>
               <Typography variant="subtitle1">
                 MONTAJ NO
@@ -95,7 +95,7 @@ const BigFont = ({ assyNo, bodyNo, rgbColor, extCode, bgColor, user, departmentC
               <Button
                 size="large"
               >
-                ARA
+                search
               </Button>
             </Box>
           </Grid>
