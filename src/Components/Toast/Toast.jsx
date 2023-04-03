@@ -14,7 +14,7 @@ const Toast = forwardRef((props, ref) => {
         setType(type);
         setTimeout(() => {
           setShow(false)
-        }, 5000);
+        }, 2000);
       },
     };
   })
