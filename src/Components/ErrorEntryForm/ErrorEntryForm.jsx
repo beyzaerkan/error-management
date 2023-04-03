@@ -128,17 +128,6 @@ function ErrorEntryForm({ nrReasons, dropdowns, saveError, cancel }) {
         flexDirection: 'column',
         padding: '25px',
       }} >
-        {/* <Box position='relative'>
-                  {selectedError && <Typography fontWeight='bold' display='inline-block'>{selectedError.labelText}</Typography>}
-                  <Typography sx={{
-                    position: 'absolute',
-                    color: 'var(--apple)',
-                    right: 0,
-                    fontWeight: 'bold',
-                    display: 'inline-block',
-                  }}>TEKNİK DESTEK</Typography>
-                </Box> */}
-
         <Grid container spacing={1}>
           <Grid item xs={12} position='relative'>
             <Typography fontWeight='bold' display='inline-block'>CVQS (TMMMT)</Typography>
@@ -158,7 +147,7 @@ function ErrorEntryForm({ nrReasons, dropdowns, saveError, cancel }) {
             />
           </Grid>
           <Grid item xs={6}>
-            <LoginElement whichComponent="dropdown" label="Hata Sorumlusu" {...errorRes} />
+            <LoginElement whichComponent="dropdown" label="errorManager" {...errorRes} />
           </Grid>
           <Grid item xs={2}>
           <FormControlLabel
@@ -177,27 +166,27 @@ function ErrorEntryForm({ nrReasons, dropdowns, saveError, cancel }) {
             <LoginElement whichComponent="dropdown" {...rdd} />
           </Grid>
           <Grid item xs={6}>
-            <LoginElement whichComponent="dropdown" label="Hata Sınıfı" {...errorCls} />
+            <LoginElement whichComponent="dropdown" label="errorClass" {...errorCls} />
           </Grid>
           <Grid item xs={3}>
-            <Button variant={"danger"} size="large" onClick={saveError}>KAYDET</Button>
+            <Button variant={"danger"} size="large" onClick={saveError}>save</Button>
           </Grid>
           <Grid item xs={3}>
-            <Button variant={"danger"} size="large" onClick={cancel}>İPTAL</Button>
+            <Button variant={"danger"} size="large" onClick={cancel}>cancel</Button>
           </Grid>
           <Grid item xs={6}>
-            <LoginElement whichComponent="dropdown" label="Exit Department" {...exitDepart} />
+            <LoginElement whichComponent="dropdown" label="exitDepartment" {...exitDepart} />
           </Grid>
           <Grid item xs={6}>
-            <LoginElement whichComponent="dropdown" label="Tamir Metodu" {...fixMethod} />
+            <LoginElement whichComponent="dropdown" label="fixMethod" {...fixMethod} />
           </Grid>
           <Grid item xs={6}>
-            <LoginElement whichComponent="dropdown" label="Tamir Tipi" {...fixType} />
+            <LoginElement whichComponent="dropdown" label="fixType" {...fixType} />
           </Grid>
         </Grid>
         <Box>
-          <LoginElement whichComponent="textInput" label={"Açıklama"} {...descriptionInput} />
-          <LoginElement whichComponent="textInput" label={"Yapılan İşlem"} {...processInput} />
+          <LoginElement whichComponent="textInput" label={"description"} {...descriptionInput} />
+          <LoginElement whichComponent="textInput" label={"transaction"} {...processInput} />
         </Box>
         <Box>
           <Keyboard

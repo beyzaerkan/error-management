@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { isValidElement} from 'react';
 import styled from '@emotion/styled';
 import  MUIBUtton  from '@mui/material/Button';
+import { useTranslation, Trans } from 'react-i18next';
 import '../../styles/variables.css';
 
 const ButtonComponent = styled(MUIBUtton)
@@ -18,6 +19,7 @@ const ButtonComponent = styled(MUIBUtton)
   border: ${props => props.variant === "light" ? "1px solid transparent " : "1px solid var(--smoke)"};
 `
 const Button = ({ disabled=false, type, size, variant, className, onClick, children }) => {
+  const {t} = useTranslation();
   return (
     <ButtonComponent
       type={type}
@@ -27,7 +29,11 @@ const Button = ({ disabled=false, type, size, variant, className, onClick, child
       onClick={onClick}
       disabled={disabled}
     >
-      {children}
+      {
+      isValidElement(children) // check if children is a React element
+        ? children
+        : <Trans>{t(children)}</Trans>
+      }
     </ButtonComponent>
   );
 };

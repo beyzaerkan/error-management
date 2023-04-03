@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
 
 const Item = styled(Box)(({ theme }) => ({
   borderRadius: '5px',
@@ -11,12 +12,13 @@ const Item = styled(Box)(({ theme }) => ({
 
 
 const Navbar = ({ assyNo, bodyNo, rgbColor, extCode, bgColor, user, departmentCode, background = "transparent" }) => {
+  const {t} = useTranslation();
   return (
     <Box sx={{backgroundColor: background, mx: 3 , mt: 1, borderRadius: '5px'}}>
       <Grid container>
         <Grid item xs={2}   textAlign= 'center' >
           <Item>
-            MONTAJ NO
+            {t('assemblyNo').toUpperCase()}
             <br />
             <span>{assyNo}</span></Item>
         </Grid>
@@ -31,11 +33,11 @@ const Navbar = ({ assyNo, bodyNo, rgbColor, extCode, bgColor, user, departmentCo
         </Grid>
         <Grid item xs={4}>
           <Item sx={{
-            fontSize: '30px',
+            fontSize: '25px',
             textAlign:'left',
           }} 
           >
-            HATA GİRİŞ EKRANI
+            {t('errorEntryScreen').toUpperCase()}
           </Item>
         </Grid>
         <Grid item xs={1} textAlign= 'center'>
@@ -44,7 +46,8 @@ const Navbar = ({ assyNo, bodyNo, rgbColor, extCode, bgColor, user, departmentCo
             border: '1px solid black',
             color: '#fff',
           }}            
-          >Renk
+          >
+            {t('color')}
             <br />
             <span>{extCode}</span></Item>
         </Grid>
