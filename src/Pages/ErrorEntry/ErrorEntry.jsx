@@ -41,44 +41,28 @@ function ErrorEntryPage() {
   const imageRef = useRef(null);
   const toastRef = useRef(null);
   const { x, y } = useMouse(imageRef);
+  const [duration, setDuration] = useState(10);
   const [audio] = useState(new Audio("https://www.soundjay.com/mechanical/sounds/smoke-detector-1.mp3"));
-  audio.muted = true;
   let updatedDefectList = [];
+  let timerId;
 
   useEffect(() => {
-    let timeoutId = setTimeout(() => {
-      toastRef.current.showToast("User didn't interact with page", "danger");
-      audio.addEventListener("canplaythrough", () => {
-        audio.play().catch(e => {
-          document.addEventListener('click', () => {
-            audio.play();
-          })
-        })
-      })
-    }, 5000);
+    timerId = setInterval(() => {
+      setDuration(prev => prev - 1);
+    }, 1000);
 
-    const handleMouseClick = () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener("click", handleMouseClick);
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
 
-    const handleMouseMove = () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener("click", handleMouseClick);
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-
-    document.addEventListener("click", handleMouseClick);
-    document.addEventListener("mousemove", handleMouseMove);
+    if (duration === 0 && isErrorEntryOpen === false) {
+      toastRef.current.showToast("Hala hata girişi yapılmadı", "warning");
+      clearInterval(timerId);
+      audio.play();
+    }
 
     return () => {
-      clearTimeout(timeoutId);
-      document.removeEventListener("click", handleMouseClick);
-      document.removeEventListener("mousemove", handleMouseMove);
+      clearInterval(timerId);
+      audio.pause();
     };
-
-  });
+  }, [duration]);
 
   const wait = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -179,6 +163,8 @@ function ErrorEntryPage() {
   }
 
   const saveError = async () => {
+    clearInterval(timerId);
+    audio.pause();
     setIsErrorEntryOpen(false);
     setBlocking(true);
     toastRef.current.showToast(JSON.stringify({
@@ -198,10 +184,6 @@ function ErrorEntryPage() {
 
     await navigatePage();
     await refreshPage();
-  }
-
-  const cancel = () => {
-    setIsErrorEntryOpen(false);
   }
 
   const errorList = () => {
@@ -279,7 +261,7 @@ function ErrorEntryPage() {
             nrReasons={nrReasonList}
             dropdowns={dropdownList}
             saveError={saveError}
-            cancel={cancel}
+            cancel={refreshPage}
           />
         }
         {
