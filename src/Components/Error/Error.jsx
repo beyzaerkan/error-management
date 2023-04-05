@@ -43,7 +43,7 @@ const Error = forwardRef(({ errorItem, deleteError, nrReasonList }, ref) => {
           {
             nrReasonList.map((nrReason, index) => {
               return (
-                <option key={index} selected={nrReason.nrId === errorItem.nrReasonId}>{nrReason.nrReasonAbb}</option>
+                <option key={index} value={nrReason.nrId === errorItem.nrReasonId}>{nrReason.nrReasonAbb}</option>
               )
             })
           }

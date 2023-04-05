@@ -27,7 +27,6 @@ function ErrorEntryPage() {
   const [selectedPart, setSelectedPart] = useState(null);
   const [isButtonDisable, setIsButtonDisable] = useState(true);
   const [options, setOptions] = useState([]);
-  const [reset, setReset] = useState(false);
   const [description, setDescription] = useState(null);
   const [process, setProcess] = useState(null);
   const [errorResbonsibility, setErrorResposibility] = useState(null);

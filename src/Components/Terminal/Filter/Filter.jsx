@@ -34,7 +34,7 @@ function Filter({ terminal, selected }) {
           borderRadius: '0 5px 0 5px',
         }}
         >{terminal.linkCount}</Box>}
-        <p paragraph>{terminal.filterCode}</p>
+        <p>{terminal.filterCode}</p>
       </Box> 
     </Tooltip>
   );

@@ -8,6 +8,9 @@ const Dropdown = ({ options, isArrowsActive, setter }) => {
   const dropdownRef = useRef(null);
 
   const updateSelected = async () => {
+    if (!options[0]) {
+      return;
+    }
     setSelected(options[0].displayName);
     setter(options[0]);
   }
