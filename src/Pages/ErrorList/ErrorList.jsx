@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Error from '../../Components/Error/Error';
 import { useFetch } from '../../Hooks';
 import { useNavigate } from 'react-router-dom';
@@ -6,26 +6,33 @@ import Input from '../../Components/Input/Input';
 import Button from '../../Components/Button/Button';
 import ShiftArrows from '../../Components/ShiftArrows/ShiftArrows';
 import SkeletonComponent from '../../Components/SkeletonComponent/SkeletonComponent';
-import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Grid, Typography, Paper } from '@mui/material';
+import { Box, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Grid, Typography } from '@mui/material';
 import { TableVirtuoso } from 'react-virtuoso';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 
 function ErrorListPage() {
   const { errors, loading, error } = useFetch();
-  const [defectList, setDefectList] = useState([]);
   const [list, setList] = useState([]);
-  const [assyNo, setAssyNo] = useState("");
+  const [assyNo, setAssyNo] = useState('');
+  const [bodyNo, setBodyNo] = useState('');
   const [sort, setSort] = useState(true);
   const [nrReasonList, setNrReasonList] = useState([]);
-  const [scroller, setScroller] = useState(null)
+  const [scroller, setScroller] = useState(null);
   const navigate = useNavigate();
 
   const { t } = useTranslation();
+  let updatedDefectList = [];
+  let updatedNrReasonList = [];
 
   const defects = async () => {
-    let updatedDefectList = errors[0].defectList;
-    let updatedNrReasonList = errors[0].nrReasonList;
+    if (!errors[0]) {
+      return;
+    }
+
+    updatedDefectList = errors[0].defectList;
+    updatedNrReasonList = errors[0].nrReasonList;
+
     setNrReasonList([...updatedNrReasonList]);
     setList([...updatedDefectList]);
   }
@@ -34,15 +41,21 @@ function ErrorListPage() {
     defects();
   }, [errors]);
 
-  const findAssyNo = () => {
+  const findByAssyNo = () => {
     setList(list.filter(defect => {
-      return defect.assyNo === assyNo;
+      return defect.assyNo === parseInt(assyNo);
     }))
   }
 
-  const onChange = (event) => {
-    const inputVal = event.target.value;
-    setAssyNo(inputVal);
+  const findByBodyNo = () => {
+    setList(list.filter(defect => {
+      return defect.bodyNo === parseInt(bodyNo);
+    }))
+  }
+
+  const updateList = () => {
+    updatedDefectList = errors[0].defectList;
+    setList([...updatedDefectList]);
   }
 
   const deleteError = value => {
@@ -90,7 +103,9 @@ function ErrorListPage() {
   const TableComponents = {
     Scroller: React.forwardRef((props, ref) => {
       setScroller(ref);
-      return <ThemeProvider theme={theme}> <TableContainer sx={{ width: '100%' }} {...props} ref={ref} /></ThemeProvider>
+      return (
+        <ThemeProvider theme={theme}> <TableContainer sx={{ width: '100%' }} {...props} ref={ref} /></ThemeProvider>
+      )
     }),
     Table: (props) => <Table {...props} sx={{ minWidth: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }} size="small" aria-label="a dense table" />,
     TableHead: TableHead,
@@ -173,8 +188,13 @@ function ErrorListPage() {
                 </Grid>
                 <Grid item xs={8}>
                   <Stack direction='row'>
-                    <Input type="text" value={assyNo} onChange={onChange} />
-                    <Button size="small" onClick={findAssyNo}>search</Button>
+                    <Input type="text" value={assyNo} onChange={(e) => {
+                      if (e.target.value === "") {
+                        updateList();
+                      }
+                      setAssyNo(e.target.value)
+                    }} />
+                    <Button size="small" onClick={findByAssyNo}>search</Button>
                   </Stack>
                 </Grid>
               </Grid>
@@ -186,8 +206,13 @@ function ErrorListPage() {
                 </Grid>
                 <Grid item xs={8}>
                   <Stack direction='row'>
-                    <Input type="text" />
-                    <Button size="small">search</Button>
+                    <Input type="text" value={bodyNo} onChange={(e) => {
+                      if (e.target.value === "") {
+                        updateList();
+                      }
+                      setBodyNo(e.target.value)
+                    }} />
+                    <Button size="small" onClick={findByBodyNo}>search</Button>
                   </Stack>
                 </Grid>
               </Grid>

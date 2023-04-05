@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const useFetch = () => {
-  let data1 = null;
   const [data, setData] = useState({
     terminals: [],
     shifts: [],

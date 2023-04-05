@@ -250,7 +250,7 @@ function TerminalLoginPage() {
               </Stack>
               <Stack direction="row">
                 <Button variant="dark" type="submit" >logIn</Button>
-                <Button variant="danger" type="button">close</Button>
+                <Button variant="danger" type="button" onClick={() => navigate(-1)}>close</Button>
               </Stack>
             </Box>
           </form>

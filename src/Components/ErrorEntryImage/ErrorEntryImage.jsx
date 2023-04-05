@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useFetch } from '../../Hooks/index';
 import ErrorSquare from '../ErrorSquare/ErrorSquare';
 import Cursor from '../Cursor/Cursor';
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 import { ErrorEntryContext } from '../../Context';
 import './ErrorEntryImage.css';
 
@@ -14,7 +14,6 @@ function ErrorEntryImage() {
   const {
     isSubImageOpen,
     setIsSubImageOpen,
-    selectedError,
     setSelectedError,
     imageRef,
     setOptions,
@@ -29,6 +28,9 @@ function ErrorEntryImage() {
   } = useContext(ErrorEntryContext);
 
   const errorDetails = async () => {
+    if (!errorDetail[0]) {
+      return;
+    }
     let updatedDefectList = errorDetail[0];
     setSelectedErrorDetail({
       partDefects: updatedDefectList.partDefects,
@@ -93,8 +95,8 @@ function ErrorEntryImage() {
 
   return (
     <Box sx={{
-      width:'100%',
-      height:'100%',
+      width: '100%',
+      height: '100%',
       border: '1px solid black'
     }}>
       <img ref={imageRef} src={imageUrl} alt="" />
