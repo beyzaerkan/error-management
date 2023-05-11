@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Error from '../../Components/Error/Error';
+import Defect from '../../Components/Defect/Defect';
 import { useFetch } from '../../Hooks';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../Components/Input/Input';
@@ -11,7 +11,7 @@ import { TableVirtuoso } from 'react-virtuoso';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 
-function ErrorListPage() {
+function DefectListPage() {
   const { errors, loading, error } = useFetch();
   const [list, setList] = useState([]);
   const [assyNo, setAssyNo] = useState('');
@@ -58,9 +58,9 @@ function ErrorListPage() {
     setList([...updatedDefectList]);
   }
 
-  const deleteError = value => {
+  const deleteDefect = value => {
     setList(oldValues => {
-      return oldValues.filter(error => error !== value)
+      return oldValues.filter(defect => defect !== value)
     })
   }
 
@@ -149,7 +149,7 @@ function ErrorListPage() {
                     <TableCell sx={{ width: 150 }} onClick={() => handleSortRequest('defectName')}>{t('defectName')}</TableCell>
                     <TableCell onClick={() => handleSortRequest('defrankCode')}>{t('Rank')}</TableCell>
                     <TableCell sx={{ width: 50 }} onClick={() => handleSortRequest('formattedDefectHour')}>{t('hour')}</TableCell>
-                    <TableCell sx={{ width: 50 }} onClick={() => handleSortRequest('defectType')}>{t('errorType')}</TableCell>
+                    <TableCell sx={{ width: 50 }} onClick={() => handleSortRequest('defectType')}>{t('defectType')}</TableCell>
                     <TableCell sx={{ width: 80 }} onClick={() => handleSortRequest('defrespName')}>{t('defrespName')}</TableCell>
                     <TableCell>{t('subResponsibles')}</TableCell>
                     <TableCell sx={{ width: 120 }}>{t('NR REASON')}</TableCell>
@@ -157,7 +157,7 @@ function ErrorListPage() {
                     <TableCell sx={{ width: 150 }}>{t('process')}</TableCell>
                   </TableRow>
                 )}
-                itemContent={(index, item) => <Error key={index} errorItem={item} deleteError={deleteError} nrReasonList={nrReasonList} />}
+                itemContent={(index, item) => <Defect key={index} defectItem={item} deleteDefect={deleteDefect} nrReasonList={nrReasonList} />}
               />
             </Box>
           )
@@ -227,10 +227,10 @@ function ErrorListPage() {
           </Box>
           <Stack direction='row' flex='50%'>
             <Button size="large">vehicleList</Button>
-            <Button size="large">manualError</Button>
-            <Button size="large">multiError</Button>
-            <Button size="large">errorList</Button>
-            <Button size="large">errorCopy</Button>
+            <Button size="large">manualDefect</Button>
+            <Button size="large">multiDefect</Button>
+            <Button size="large">defectList</Button>
+            <Button size="large">defectCopy</Button>
             <Button size="large" onClick={() => navigate(`/terminals`)}>exit</Button>
           </Stack>
         </Box>
@@ -239,4 +239,4 @@ function ErrorListPage() {
   );
 }
 
-export default ErrorListPage;
+export default DefectListPage;

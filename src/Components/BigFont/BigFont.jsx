@@ -83,7 +83,7 @@ const BigFont = ({ assyNo, bodyNo, rgbColor, extCode, bgColor, user, departmentC
                 size="large"
                 onClick={backToPage}
               >
-                errorEntry
+                defectEntry
               </Button>
               <Typography variant="subtitle1">
                 MONTAJ NO

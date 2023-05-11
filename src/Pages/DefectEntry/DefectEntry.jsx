@@ -4,15 +4,15 @@ import Navbar from '../../Components/Navbar/Navbar'
 import Button from '../../Components/Button/Button';
 import Input from '../../Components/Input/Input';
 import BigFont from '../../Components/BigFont/BigFont'
-import ErrorEntryForm from '../../Components/ErrorEntryForm/ErrorEntryForm';
-import ErrorEntryImage from '../../Components/ErrorEntryImage/ErrorEntryImage';
+import DefectEntryForm from '../../Components/DefectEntryForm/DefectEntryForm';
+import DefectEntryImage from '../../Components/DefectEntryImage/DefectEntryImage';
 import Toast from '../../Components/Toast/Toast';
 import BlockUI from '../../Components/BlockUI/BlockUI';
 import { useFetch, useMouse } from '../../Hooks';
 import { Box, Grid, Stack, Typography, FormControlLabel, Checkbox } from '@mui/material';
-import { ErrorEntryContext } from '../../Context';
+import { DefectEntryContext } from '../../Context';
 
-function ErrorEntryPage() {
+function DefectEntryPage() {
   const { defects, nrReasons, dropdowns, loading, error } = useFetch();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -22,15 +22,15 @@ function ErrorEntryPage() {
   const [dropdownList, setDropdowns] = useState([]);
   const [isSubImageOpen, setIsSubImageOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isErrorEntryOpen, setIsErrorEntryOpen] = useState(false);
-  const [selectedError, setSelectedError] = useState(null);
+  const [isDefectEntryOpen, setIsDefectEntryOpen] = useState(false);
+  const [selectedDefect, setSelectedDefect] = useState(null);
   const [selectedPart, setSelectedPart] = useState(null);
   const [isButtonDisable, setIsButtonDisable] = useState(true);
   const [options, setOptions] = useState([]);
   const [description, setDescription] = useState(null);
   const [process, setProcess] = useState(null);
-  const [errorResbonsibility, setErrorResposibility] = useState(null);
-  const [errorClass, setErrorClass] = useState(null);
+  const [defectResbonsibility, setDefectResposibility] = useState(null);
+  const [defectClass, setDefectClass] = useState(null);
   const [exitDepartment, setExitDepartment] = useState(null);
   const [rdd, setRdd] = useState(null);
   const [fixType, setFixType] = useState(null);
@@ -51,7 +51,7 @@ function ErrorEntryPage() {
     }, 1000);
 
 
-    if (duration === 0 && isErrorEntryOpen === false) {
+    if (duration === 0 && isDefectEntryOpen === false) {
       toastRef.current.showToast("Hala hata girişi yapılmadı", "warning");
       clearInterval(timerId);
       audio.play();
@@ -77,8 +77,8 @@ function ErrorEntryPage() {
     setIsSubImageOpen,
     isDropdownOpen,
     setIsDropdownOpen,
-    selectedError,
-    setSelectedError,
+    selectedDefect,
+    setSelectedDefect,
     imageRef,
     options,
     setOptions,
@@ -88,13 +88,13 @@ function ErrorEntryPage() {
     setList,
     x,
     y,
-    setIsErrorEntryOpen,
+    setIsDefectEntryOpen,
     imageUrl,
     setImageUrl,
     setDescription,
     setProcess,
-    setErrorResposibility,
-    setErrorClass,
+    setDefectResposibility,
+    setDefectClass,
     setExitDepartment,
     setRdd,
     setFixType,
@@ -150,29 +150,29 @@ function ErrorEntryPage() {
   const refreshPage = async () => {
     firstImage();
     setIsVisible(false);
-    setIsErrorEntryOpen(false);
+    setIsDefectEntryOpen(false);
     setDescription(null);
     setProcess(null);
-    setErrorResposibility(null);
-    setErrorClass(null);
+    setDefectResposibility(null);
+    setDefectClass(null);
     setExitDepartment(null);
     setRdd(null);
     setFixType(null);
     setFixMethod(null);
   }
 
-  const saveError = async () => {
+  const saveDefect = async () => {
     clearInterval(timerId);
     audio.pause();
-    setIsErrorEntryOpen(false);
+    setIsDefectEntryOpen(false);
     setBlocking(true);
     toastRef.current.showToast(JSON.stringify({
       x,
       y,
-      selectedError: selectedError.labelText,
+      selectedDefect: selectedDefect.labelText,
       selectedPart: selectedPart.defectName,
-      errorResbonsibility: errorResbonsibility.displayName,
-      errorClass: errorClass.displayName,
+      defectResbonsibility: defectResbonsibility.displayName,
+      defectClass: defectClass.displayName,
       exitDepartment: exitDepartment.displayName,
       rdd: rdd.displayName,
       fixType: fixType.displayName,
@@ -185,7 +185,7 @@ function ErrorEntryPage() {
     await refreshPage();
   }
 
-  const errorList = () => {
+  const goToDefectListPage = () => {
     navigate(`/terminal/defcorrect`);
   }
 
@@ -205,7 +205,7 @@ function ErrorEntryPage() {
     setList([...updatedDefectList]);
     setIsSubImageOpen(false);
     setImageUrl("https://www.autopartspro.co.uk/tips-advice/wp-content/uploads/2018/04/Unterbodenschutz1-2.jpg");
-    setSelectedError(null);
+    setSelectedDefect(null);
     setSelectedPart(null);
     setOptions(null);
     setIsButtonDisable(true);
@@ -244,7 +244,7 @@ function ErrorEntryPage() {
   }
 
   return (
-    <ErrorEntryContext.Provider value={data}>
+    <DefectEntryContext.Provider value={data}>
       <Box sx={{
         width: '100vw',
         height: '100vh',
@@ -255,11 +255,11 @@ function ErrorEntryPage() {
         <BlockUI blocking={blocking} />
         <Toast ref={toastRef} />
         {
-          isErrorEntryOpen &&
-          <ErrorEntryForm
+          isDefectEntryOpen &&
+          <DefectEntryForm
             nrReasons={nrReasonList}
             dropdowns={dropdownList}
-            saveError={saveError}
+            saveDefect={saveDefect}
             cancel={refreshPage}
           />
         }
@@ -290,7 +290,7 @@ function ErrorEntryPage() {
           />
 
           <Box display='flex' width='100%' height='80%' >
-            <ErrorEntryImage />
+            <DefectEntryImage />
             <Box sx={{
               flex: '30%',
               margin: '0 10px',
@@ -333,10 +333,10 @@ function ErrorEntryPage() {
               </Button>
               <Button
                 disabled={isButtonDisable}
-                onClick={() => setIsErrorEntryOpen(true)}
+                onClick={() => setIsDefectEntryOpen(true)}
                 size="large"
               >
-                saveError
+                saveDefect
               </Button>
               <Typography sx={{
                 textAlign: 'center',
@@ -375,9 +375,9 @@ function ErrorEntryPage() {
                 <Button>modelFirstImage</Button>
                 <Button>back</Button>
                 <Button
-                  onClick={errorList}
+                  onClick={goToDefectListPage}
                 >
-                  errorList
+                  defectList
                 </Button>
                 <Button>clear</Button>
                 <Button onClick={showBigFont}>bigFont</Button>
@@ -388,7 +388,7 @@ function ErrorEntryPage() {
             </Grid>
           </Grid>
           <Box position='relative'>
-            {selectedError && <Typography fontWeight='bold' display='inline-block'>{selectedError.labelText}</Typography>}
+            {selectedDefect && <Typography fontWeight='bold' display='inline-block'>{selectedDefect.labelText}</Typography>}
             <Typography sx={{
               position: 'absolute',
               color: 'var(--apple)',
@@ -399,8 +399,8 @@ function ErrorEntryPage() {
           </Box>
         </Box>
       </Box>
-    </ErrorEntryContext.Provider>
+    </DefectEntryContext.Provider>
   );
 }
 
-export default ErrorEntryPage;
+export default DefectEntryPage;

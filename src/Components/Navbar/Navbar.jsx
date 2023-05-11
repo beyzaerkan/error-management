@@ -37,7 +37,7 @@ const Navbar = ({ assyNo, bodyNo, rgbColor, extCode, bgColor, user, departmentCo
             textAlign:'left',
           }} 
           >
-            {t('errorEntryScreen').toUpperCase()}
+            {t('defectEntryScreen').toUpperCase()}
           </Item>
         </Grid>
         <Grid item xs={1} textAlign= 'center'>

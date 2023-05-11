@@ -8,7 +8,7 @@ const useFetch = () => {
     errors: [],
     logins: [],
     defects: [],
-    errorDetail: [],
+    defectDetail: [],
     nrReasons: [],
     dropdowns: []
   });
@@ -35,7 +35,7 @@ const useFetch = () => {
             errors: response.errors.data,
             logins: response.logins.data,
             defects: response.defects.data,
-            errorDetail: response.errorDetail.data,
+            defectDetail: response.defectDetail.data,
             nrReasons: response.nrReasons,
             dropdowns: response.dropdowns,
           });

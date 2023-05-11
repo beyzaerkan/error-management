@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import DropdownContent from '../DropdownContent/DropdownContent';
-import { ErrorEntryContext } from '../../Context';
+import { DefectEntryContext } from '../../Context';
 import { Box } from '@mui/material';
 
-function ErrorSquare({ box, handleClick }) {
-  const { options, imageRef, setSelectedPart } = useContext(ErrorEntryContext);
+function DefectSquare({ box, handleClick }) {
+  const { options, imageRef, setSelectedPart } = useContext(DefectEntryContext);
   const maxX = imageRef.current.offsetLeft + imageRef.current.clientWidth - box.boxWidth;
   const maxY = imageRef.current.offsetTop + imageRef.current.clientHeight - box.boxHeight;
   const constrainedX = Math.max(box.boxX, Math.min(imageRef.current.offsetLeft + box.boxX, maxX));
@@ -51,4 +51,4 @@ function ErrorSquare({ box, handleClick }) {
   )
 }
 
-export default ErrorSquare;
+export default DefectSquare;
