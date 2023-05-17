@@ -67,7 +67,7 @@ function TerminalLoginPage() {
       .required('Password is required'),
     assemblyNo: yup
       .string('Enter asssembly no')
-      .max(3, 'Assembly No should be of minimum 3 characters length'),
+      .max(3, 'Assembly No should be 3 characters length'),
   });
 
   const formik = useFormik({
@@ -80,10 +80,11 @@ function TerminalLoginPage() {
     onSubmit: async (values) => {
 
       if (values.registrationNo !== loginInfo.registrationNo
-        || values.password !== loginInfo.password
-        || values.assemblyNo !== terminal.lastAssyNo) {
-        toastRef.current.showToast("Failed", "danger");
-        return;
+        || values.password !== loginInfo.password) {
+        toastRef.current.showToast("Invalid registration no or password", "danger");
+      } 
+      else if (values.assemblyNo !== terminal.lastAssyNo){
+        toastRef.current.showToast("Selected terminal and the assembly number do not match", "danger");
       }
       else {
         setBlocking(true);
