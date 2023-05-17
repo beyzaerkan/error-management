@@ -1,11 +1,11 @@
 import React, { useRef, useContext } from 'react';
-import { ErrorEntryContext } from '../../Context';
+import { DefectEntryContext } from '../../Context';
 import ShiftArrows from '../ShiftArrows/ShiftArrows';
 import './DropdownContent.css'
 
 const DropdownContent = ({ options, setter }) => {
   const dropdownRef = useRef(null);
-  const { setSelectedPart } = useContext(ErrorEntryContext);
+  const { setSelectedPart } = useContext(DefectEntryContext);
 
   return (
     <div className='dropdown-element' >

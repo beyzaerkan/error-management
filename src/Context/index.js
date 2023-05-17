@@ -1,5 +1,5 @@
-import ErrorEntryContext from './ErrorEntryContext';
+import DefectEntryContext from './DefectEntryContext';
 
 export {
-    ErrorEntryContext,
+    DefectEntryContext,
 }

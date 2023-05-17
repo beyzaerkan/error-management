@@ -3,9 +3,9 @@ import LoginElement from '../LoginElement/LoginElement';
 import Button from '../Button/Button';
 import { Box, Grid, Typography, Checkbox, FormControlLabel } from '@mui/material';
 import Keyboard from 'react-simple-keyboard';
-import { ErrorEntryContext } from '../../Context';
+import { DefectEntryContext } from '../../Context';
 
-function ErrorEntryForm({ nrReasons, dropdowns, saveError, cancel }) {
+function DefectEntryForm({ nrReasons, dropdowns, saveDefect, cancel }) {
   const [inputName, setInputName] = useState("default");
   const [inputs, setInputs] = useState({});
   const [layout, setLayout] = useState("default");
@@ -14,13 +14,13 @@ function ErrorEntryForm({ nrReasons, dropdowns, saveError, cancel }) {
   const {
     setDescription,
     setProcess,
-    setErrorResposibility,
-    setErrorClass,
+    setDefectResposibility,
+    setDefectClass,
     setExitDepartment,
     setRdd,
     setFixType,
     setFixMethod
-  } = useContext(ErrorEntryContext);
+  } = useContext(DefectEntryContext);
 
   const onChangeAll = inputs => {
     setInputs({ ...inputs });
@@ -54,9 +54,9 @@ function ErrorEntryForm({ nrReasons, dropdowns, saveError, cancel }) {
     return inputs[inputName] || "";
   };
 
-  const errorRes = {
+  const defectRes = {
     options: dropdowns.defectResponsibles,
-    setter: setErrorResposibility,
+    setter: setDefectResposibility,
     isArrowsActive: false,
   }
   const rdd = {
@@ -65,9 +65,9 @@ function ErrorEntryForm({ nrReasons, dropdowns, saveError, cancel }) {
     isArrowsActive: false,
   }
 
-  const errorCls = {
+  const defectCls = {
     options: dropdowns.defectClass,
-    setter: setErrorClass,
+    setter: setDefectClass,
     isArrowsActive: false,
   }
   const exitDepart = {
@@ -147,7 +147,7 @@ function ErrorEntryForm({ nrReasons, dropdowns, saveError, cancel }) {
             />
           </Grid>
           <Grid item xs={6}>
-            <LoginElement whichComponent="dropdown" label="errorManager" {...errorRes} />
+            <LoginElement whichComponent="dropdown" label="defectManager" {...defectRes} />
           </Grid>
           <Grid item xs={2}>
           <FormControlLabel
@@ -166,10 +166,10 @@ function ErrorEntryForm({ nrReasons, dropdowns, saveError, cancel }) {
             <LoginElement whichComponent="dropdown" {...rdd} />
           </Grid>
           <Grid item xs={6}>
-            <LoginElement whichComponent="dropdown" label="errorClass" {...errorCls} />
+            <LoginElement whichComponent="dropdown" label="defectClass" {...defectCls} />
           </Grid>
           <Grid item xs={3}>
-            <Button variant={"danger"} size="large" onClick={saveError}>save</Button>
+            <Button variant={"danger"} size="large" onClick={saveDefect}>save</Button>
           </Grid>
           <Grid item xs={3}>
             <Button variant={"danger"} size="large" onClick={cancel}>cancel</Button>
@@ -202,4 +202,4 @@ function ErrorEntryForm({ nrReasons, dropdowns, saveError, cancel }) {
   )
 }
 
-export default ErrorEntryForm;
+export default DefectEntryForm;

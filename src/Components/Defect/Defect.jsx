@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFloppyDisk, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { TableCell, Box, Stack } from '@mui/material';
 
-const Error = forwardRef(({ errorItem, deleteError, nrReasonList }, ref) => {
+const Defect = forwardRef(({ defectItem, deleteDefect, nrReasonList }, ref) => {
   const [textColor, setTextColor] = useState('');
 
   const calculateBrightness = (color) => {
@@ -13,37 +13,37 @@ const Error = forwardRef(({ errorItem, deleteError, nrReasonList }, ref) => {
   }
 
   useEffect(() => {
-    const brightness = calculateBrightness(errorItem.rgbCode);
+    const brightness = calculateBrightness(defectItem.rgbCode);
     const newTextColor = brightness > 128 ? '#000' : '#FFF';
     setTextColor(newTextColor);
-  }, [errorItem.rgbCode])
+  }, [defectItem.rgbCode])
 
   return (
     <>
-      <TableCell>{errorItem.depCode}</TableCell>
-      <TableCell>{errorItem.bodyNo}</TableCell>
-      <TableCell>{errorItem.assyNo}</TableCell>
-      <TableCell>{errorItem.vinNo}</TableCell>
-      <TableCell><Box sx={{ background: errorItem.rgbCode, borderRadius: '5px', color: textColor }}>{errorItem.colorExtCode}</Box></TableCell>
-      <TableCell>{errorItem.modelCode}</TableCell>
-      <TableCell>{errorItem.localId}</TableCell>
-      <TableCell><a href="url" style={{color: 'var(--apple)' }}>{errorItem.partName}</a></TableCell>
+      <TableCell>{defectItem.depCode}</TableCell>
+      <TableCell>{defectItem.bodyNo}</TableCell>
+      <TableCell>{defectItem.assyNo}</TableCell>
+      <TableCell>{defectItem.vinNo}</TableCell>
+      <TableCell><Box sx={{ background: defectItem.rgbCode, borderRadius: '5px', color: textColor }}>{defectItem.colorExtCode}</Box></TableCell>
+      <TableCell>{defectItem.modelCode}</TableCell>
+      <TableCell>{defectItem.localId}</TableCell>
+      <TableCell><a href="url" style={{color: 'var(--apple)' }}>{defectItem.partName}</a></TableCell>
       <TableCell>{ }</TableCell>
       <TableCell>{ }</TableCell>
       <TableCell>{ }</TableCell>
       <TableCell>{ }</TableCell>
-      <TableCell>{errorItem.defectName}</TableCell>
-      <TableCell>{errorItem.defrankCode}</TableCell>
-      <TableCell>{errorItem.formattedDefectHour}</TableCell>
-      <TableCell>{errorItem.defectType}</TableCell>
-      <TableCell>{errorItem.defrespName}</TableCell>
+      <TableCell>{defectItem.defectName}</TableCell>
+      <TableCell>{defectItem.defrankCode}</TableCell>
+      <TableCell>{defectItem.formattedDefectHour}</TableCell>
+      <TableCell>{defectItem.defectType}</TableCell>
+      <TableCell>{defectItem.defrespName}</TableCell>
       <TableCell>{ }</TableCell>
       <TableCell>
         <select>
           {
             nrReasonList.map((nrReason, index) => {
               return (
-                <option key={index} value={nrReason.nrId === errorItem.nrReasonId}>{nrReason.nrReasonAbb}</option>
+                <option key={index} value={nrReason.nrId === defectItem.nrReasonId}>{nrReason.nrReasonAbb}</option>
               )
             })
           }
@@ -57,11 +57,11 @@ const Error = forwardRef(({ errorItem, deleteError, nrReasonList }, ref) => {
       <TableCell>
         <Stack direction='row'>
           <Button variant='danger' size="small"><FontAwesomeIcon icon={faPen} /></Button>
-          <Button variant='danger' size="small" onClick={() => deleteError(errorItem)}><FontAwesomeIcon icon={faTrash} /></Button>
+          <Button variant='danger' size="small" onClick={() => deleteDefect(defectItem)}><FontAwesomeIcon icon={faTrash} /></Button>
         </Stack>
       </TableCell>
     </>
   );
 });
 
-export default Error;
+export default Defect;

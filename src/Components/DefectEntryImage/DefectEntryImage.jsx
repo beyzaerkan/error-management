@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useFetch } from '../../Hooks/index';
-import ErrorSquare from '../ErrorSquare/ErrorSquare';
+import DefectSquare from '../DefectSquare/DefectSquare';
 import Cursor from '../Cursor/Cursor';
 import { Box } from '@mui/material';
-import { ErrorEntryContext } from '../../Context';
-import './ErrorEntryImage.css';
+import { DefectEntryContext } from '../../Context';
+import './DefectEntryImage.css';
 
-function ErrorEntryImage() {
-  const { errorDetail, loading, error } = useFetch();
+function DefectEntryImage() {
+  const { defectDetail, loading, error } = useFetch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(true);
-  const [selectedErrrorDetail, setSelectedErrorDetail] = useState("");
+  const [selectedErrrorDetail, setSelectedDefectDetail] = useState("");
 
   const {
     isSubImageOpen,
     setIsSubImageOpen,
-    setSelectedError,
+    setSelectedDefect,
     imageRef,
     setOptions,
     selectedPart,
@@ -25,14 +25,14 @@ function ErrorEntryImage() {
     y,
     imageUrl,
     setImageUrl,
-  } = useContext(ErrorEntryContext);
+  } = useContext(DefectEntryContext);
 
-  const errorDetails = async () => {
-    if (!errorDetail[0]) {
+  const defectDetails = async () => {
+    if (!defectDetail[0]) {
       return;
     }
-    let updatedDefectList = errorDetail[0];
-    setSelectedErrorDetail({
+    let updatedDefectList = defectDetail[0];
+    setSelectedDefectDetail({
       partDefects: updatedDefectList.partDefects,
       spotDefects: updatedDefectList.spotDefects,
       arcDefects: updatedDefectList.arcDefects,
@@ -43,11 +43,11 @@ function ErrorEntryImage() {
   }
 
   useEffect(() => {
-    errorDetails();
-  }, [errorDetail])
+    defectDetails();
+  }, [defectDetail])
 
   const handleClick = (shape) => {
-    setSelectedError(shape);
+    setSelectedDefect(shape);
     if (shape.boxColor === "blue") {
       setSelectedPart(null);
       setIsSubImageOpen(true);
@@ -107,7 +107,7 @@ function ErrorEntryImage() {
           (
             list.map((shape, index) => {
               return (
-                <ErrorSquare
+                <DefectSquare
                   key={index}
                   box={shape}
                   handleClick={() => {
@@ -122,4 +122,4 @@ function ErrorEntryImage() {
   )
 }
 
-export default ErrorEntryImage;
+export default DefectEntryImage;
