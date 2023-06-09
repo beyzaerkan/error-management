@@ -31,7 +31,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -s build -e docs",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -56,7 +56,7 @@
     ]
   },
   "devDependencies": {
-    "gh-pages": "^5.0.0",
+    "gh-pages": "^3.0.0",
     "react-router-dom": "^6.8.1"
   }
 }
